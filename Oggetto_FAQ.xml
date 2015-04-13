@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<config>
+    <modules>
+        <Oggetto_FAQ>
+            <!-- Whether our module is active: true or false -->
+            <active>true</active>
+            <!-- Which module code pool to use: core, community or local -->
+            <codePool>local</codePool>
+        </Oggetto_FAQ>
+    </modules>
+</config>

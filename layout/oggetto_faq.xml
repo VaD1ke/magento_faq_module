@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+ <layout>
+    <oggetto_faq_index_index>
+        <reference name="content">
+            <block type="core/template" template="faq/index.phtml" />
+        </reference>
+    </oggetto_faq_index_index>
+    <oggetto_faq_index_view>
+        <reference name="content">
+            <block type="oggetto_faq/questions" name="questions.content" template="faq/view.phtml" />
+        </reference>
+    </oggetto_faq_index_view>
+</layout>

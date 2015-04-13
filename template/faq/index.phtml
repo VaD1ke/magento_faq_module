@@ -1,0 +1,12 @@
+<?php
+$questions = $this->getQuestionsCollection();
+$questionsViewUrl = Mage::getUrl('FAQ/index/view');
+?>
+<h1>FAQ</h1>
+<?php foreach ($questions as $item): ?>
+        <h2>
+            <a href="<?php echo $questionsViewUrl;?>id=<?php echo $item->getId();?>">
+                <?php echo $item->getName()?>
+            </a>
+        </h2>
+<?php endforeach; ?>
