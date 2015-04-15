@@ -1,0 +1,10 @@
+<?php
+$questionsAddUrl = Mage::getUrl('faq/index/add');
+?>
+<h2>Ask a question</h2>
+<form method="POST" action="<?php echo $questionsAddUrl; ?>" accept-charset="UTF-8">
+    <input name="name" type="text" placeholder="your name" size="10" required><br>
+    <input name="email" type="text" placeholder="your email" required><br>
+    <textarea name="question_text" placeholder="your question" style="resize:none" required></textarea><br>
+    <input type="submit" value="Ask the question">
+</form>

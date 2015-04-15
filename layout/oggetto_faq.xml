@@ -2,12 +2,12 @@
  <layout>
     <oggetto_faq_index_index>
         <reference name="content">
-            <block type="core/template" template="faq/index.phtml" />
+            <block type="oggetto_faq/questions" template="faq/index.phtml" />
         </reference>
     </oggetto_faq_index_index>
-    <oggetto_faq_index_view>
+    <oggetto_faq_index_ask>
         <reference name="content">
-            <block type="oggetto_faq/questions" name="questions.content" template="faq/view.phtml" />
+            <block type="oggetto_faq/ask" name="questions.content" template="faq/ask.phtml" />
         </reference>
-    </oggetto_faq_index_view>
+    </oggetto_faq_index_ask>
 </layout>

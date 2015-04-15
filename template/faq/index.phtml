@@ -1,12 +1,28 @@
 <?php
-$questions = $this->getQuestionsCollection();
-$questionsViewUrl = Mage::getUrl('FAQ/index/view');
+
+$questions = $this->getCollection();
+$questionsAddUrl = Mage::getUrl('faq/index/add');
+$questionsAskUrl = Mage::getUrl('faq/index/ask');
+$isDisabled = Mage::getStoreConfig('oggetto_faq_options/disable_options/disable_adding');
+
 ?>
-<h1>FAQ</h1>
+
+
+<div class="page-title">
+    <h1>FAQ</h1>
+</div>
+<?php echo $this->getPagerHtml();
+if ($isDisabled == 1): ?>
+<h2><a href="<?php echo $questionsAskUrl ?>">Ask a question</a></h2>
+<?php endif ?>
+<h2>Answers</h2>
 <?php foreach ($questions as $item): ?>
-        <h2>
-            <a href="<?php echo $questionsViewUrl;?>id=<?php echo $item->getId();?>">
-                <?php echo $item->getName()?>
-            </a>
-        </h2>
+    <table class="data-table">
+        <tr><th>Name</th><td><?php echo $item->getName(); ?></td></tr>
+        <tr><th>Email</th><td><?php echo $item->getEmail(); ?></td></tr>
+        <tr><th>Question</th><td><?php echo $item->getQuestionText(); ?></td></tr>
+        <tr><th>Answer</th><td><?php echo $item->getAnswerText(); ?></td></tr>
+        <tr><th>Date</th><td><?php echo $item->getCreatedAt(); ?></td></tr>
+    </table><br>
 <?php endforeach; ?>
+<?php echo $this->getPagerHtml(); ?>
