@@ -1,14 +1,53 @@
 <?php
+/**
+ * Oggetto FAQ extension for Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade
+ * the Oggetto FAQ module to newer versions in the future.
+ * If you wish to customize the Oggetto Filter module for your needs
+ * please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category   Oggetto
+ * @package    Oggetto_Filter
+ * @copyright  Copyright (C) 2015 Oggetto Web (http://oggettoweb.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 
+/**
+ * FAQ Controller for front
+ *
+ * @category   Oggetto
+ * @package    Oggetto_Faq
+ * @subpackage controllers
+ * @author     Vladislav Slesarenko <vslesarenko@oggettoweb.com>
+ */
 class Oggetto_FAQ_IndexController extends Mage_Core_Controller_Front_Action
 {
-
+    /**
+     * Display questions
+     *
+     * @return void
+     */
     public function indexAction()
     {
         $this->loadLayout();
         $this->renderLayout();
     }
 
+    /**
+     * Display form for asking question
+     *
+     * @return void
+     */
     public function askAction()
     {
         $isDisabled = Mage::helper('oggetto_faq')->isDisabledAddingOptionData();
@@ -21,6 +60,11 @@ class Oggetto_FAQ_IndexController extends Mage_Core_Controller_Front_Action
         }
     }
 
+    /**
+     * Add question
+     *
+     * @return void
+     */
     public function addAction()
     {
         $data = Mage::app()->getRequest()->getPost();
@@ -48,4 +92,3 @@ class Oggetto_FAQ_IndexController extends Mage_Core_Controller_Front_Action
     }
 
 }
-
