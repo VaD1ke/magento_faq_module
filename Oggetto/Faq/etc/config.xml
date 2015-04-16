@@ -113,4 +113,12 @@
         </resources>
     </global>
 
+    <default>
+        <oggetto_faq_options>
+            <disable_options>
+                <disable_adding>0</disable_adding>
+            </disable_options>
+        </oggetto_faq_options>
+    </default>
+
 </config>

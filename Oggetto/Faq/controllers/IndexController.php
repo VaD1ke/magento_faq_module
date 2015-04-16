@@ -9,12 +9,11 @@ class Oggetto_FAQ_IndexController extends Mage_Core_Controller_Front_Action
         $this->renderLayout();
     }
 
-
     public function askAction()
     {
-        $isDisabled = Mage::getStoreConfig('oggetto_faq_options/disable_options/disable_adding');
+        $isDisabled = Mage::helper('oggetto_faq')->isDisabledAddingOptionData();
 
-        if ($isDisabled == 1) {
+        if (!$isDisabled) {
             $this->loadLayout();
             $this->renderLayout();
         } else {
@@ -26,11 +25,10 @@ class Oggetto_FAQ_IndexController extends Mage_Core_Controller_Front_Action
     {
         $data = Mage::app()->getRequest()->getPost();
 
-
         try {
 
             $model = Mage::getModel('oggetto_faq/questions');
-            $model->setData($data);
+            $model->setData($data)->setIsAnswered(0);
 
             $model->save();
 
@@ -50,3 +48,4 @@ class Oggetto_FAQ_IndexController extends Mage_Core_Controller_Front_Action
     }
 
 }
+

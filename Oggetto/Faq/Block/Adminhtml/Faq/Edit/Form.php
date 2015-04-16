@@ -9,11 +9,11 @@ class Oggetto_Faq_Block_Adminhtml_Faq_Edit_Form extends Mage_Adminhtml_Block_Wid
         $model = Mage::registry('current_questions');
 
         $form = new Varien_Data_Form(array(
-            'id' => 'edit_form',
-            'action' => $this->getUrl('*/*/save', array(
-                'id' => $this->getRequest()->getParam('id')
+            'id'      => 'edit_form',
+            'action'  => $this->getUrl('*/*/save', array(
+                'id'  => $this->getRequest()->getParam('id')
             )),
-            'method' => 'post',
+            'method'  => 'post',
             'enctype' => 'multipart/form-data'
         ));
 
@@ -23,33 +23,24 @@ class Oggetto_Faq_Block_Adminhtml_Faq_Edit_Form extends Mage_Adminhtml_Block_Wid
 
         $fieldset->addField('name', 'label', array(
             'label' => $helper->__('User name'),
-            'name' => 'name',
+            'name'  => 'name',
         ));
-
         $fieldset->addField('email', 'label', array(
             'label' => $helper->__('User email'),
-            'name' => 'email',
+            'name'  => 'email',
         ));
-
         $fieldset->addField('question_text', 'editor', array(
             'label' => $helper->__('Question text'),
-            //'required' => true,
-            'name' => 'question_text',
+            'name'  => 'question_text',
         ));
-
         $fieldset->addField('answer_text', 'editor', array(
             'label' => $helper->__('Answer text'),
-            //'required' => true,
-            'name' => 'answer_text',
+            'name'  => 'answer_text',
         ));
-
         $fieldset->addField('created_at', 'label', array(
             'label' => $helper->__('Created'),
-            'name' => 'created_at',
+            'name'  => 'created_at',
         ));
-
-
-
 
         $form->setUseContainer(true);
 

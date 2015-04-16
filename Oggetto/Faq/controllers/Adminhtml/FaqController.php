@@ -5,21 +5,10 @@ class Oggetto_Faq_Adminhtml_FaqController extends Mage_Adminhtml_Controller_Acti
 
     public function indexAction()
     {
-        /*$this->loadLayout();
-        $this->_setActiveMenu('oggetto_faq');
-
-        $contentBlock = $this->getLayout()->createBlock('oggetto_faq/adminhtml_faq');
-        $this->_addContent($contentBlock);*/
-
         $this->loadLayout()->_setActiveMenu('oggetto_faq');
         $this->_addContent($this->getLayout()->createBlock('oggetto_faq/adminhtml_faq'));
         $this->renderLayout();
     }
-
-    /*public function newAction()
-    {
-        $this->_forward('edit');
-    }*/
 
     public function editAction()
     {
@@ -40,14 +29,10 @@ class Oggetto_Faq_Adminhtml_FaqController extends Mage_Adminhtml_Controller_Acti
                 $model = Mage::getModel('oggetto_faq/questions');
                 $model->setData($data)->setId($this->getRequest()->getParam('id'));
                 if ($data['answer_text']) {
-                    $model->setIsAnswered(true);
+                    $model->setIsAnswered(1);
                 } else {
-                    $model->setIsAnswered(false);
+                    $model->setIsAnswered(0);
                 }
-
-                /*if (!$model->getCreatedAt()) {
-                    $model->setCreatedAt(now());
-                }*/
 
                 $model->save();
 
@@ -90,9 +75,8 @@ class Oggetto_Faq_Adminhtml_FaqController extends Mage_Adminhtml_Controller_Acti
 
             } catch (Exception $e) {
 
-                Mage::getSingleton('adminhtml/session')->addSuccess(
-                    $this->__('Question was deleted successfully')
-                );
+                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                $this->_redirect('*/*/edit', array('id' => $id));
 
             }
         }

@@ -12,7 +12,7 @@ try {
             'unsigned' => true,
             'identity' => true,
             'nullable' => false,
-            'primary' => true,
+            'primary'  => true,
         ), 'Question ID')
         ->addColumn('name', Varien_Db_Ddl_Table::TYPE_VARCHAR, '255', array(
             'nullable' => false,
@@ -28,18 +28,20 @@ try {
         ), 'Answer Text')
         ->addColumn('created_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
             'nullable' => true,
-            'default' => null,
+            'default'  => Varien_Db_Ddl_Table::TIMESTAMP_INIT,
         ), 'Created At')
         ->addColumn('is_answered', Varien_Db_Ddl_Table::TYPE_BOOLEAN, null, array(
             'nullable' => false,
-            'default' => false,
+            'default'  => 0,
         ), 'Is Answered')
         ->setComment('Questions Table');
 
     $installer->getConnection()->createTable($table);
 
 } catch (Exception $e) {
+
     Mage::logException($e);
+
 }
 
 $installer->endSetup();
