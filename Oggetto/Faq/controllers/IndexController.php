@@ -13,11 +13,11 @@
  *
  * Do not edit or add to this file if you wish to upgrade
  * the Oggetto FAQ module to newer versions in the future.
- * If you wish to customize the Oggetto Filter module for your needs
+ * If you wish to customize the Oggetto FAQ module for your needs
  * please refer to http://www.magentocommerce.com for more information.
  *
  * @category   Oggetto
- * @package    Oggetto_Filter
+ * @package    Oggetto_Faq
  * @copyright  Copyright (C) 2015 Oggetto Web (http://oggettoweb.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -72,7 +72,7 @@ class Oggetto_FAQ_IndexController extends Mage_Core_Controller_Front_Action
         try {
 
             $model = Mage::getModel('oggetto_faq/questions');
-            $model->setData($data)->setIsAnswered(0);
+            $model->setData($data)->setNotAnswered();
 
             $model->save();
 

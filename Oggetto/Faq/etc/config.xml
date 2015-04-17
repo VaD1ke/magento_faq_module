@@ -13,7 +13,7 @@ DISCLAIMER
 
 Do not edit or add to this file if you wish to upgrade
 the Oggetto FAQ module to newer versions in the future.
-If you wish to customize the Oggetto Filter module for your needs
+If you wish to customize the Oggetto FAQ module for your needs
 please refer to http://www.magentocommerce.com for more information.
 
 @category   Oggetto
@@ -40,40 +40,6 @@ please refer to http://www.magentocommerce.com for more information.
             </oggetto_faq_admin>
         </routers>
     </admin>
-
-    <adminhtml>
-        <menu>
-            <customer module="adminhtml">
-                <children>
-                    <oggetto_faq module="oggetto_faq">
-                        <title>Questions</title>
-                        <sort_order>120</sort_order>
-                        <action>oggetto_faq_admin/adminhtml_faq</action>
-                    </oggetto_faq>
-                </children>
-            </customer>
-        </menu>
-
-        <acl>
-            <resources>
-                <admin>
-                    <children>
-                        <system>
-                            <children>
-                                <config>
-                                    <children>
-                                        <oggetto_faq_options>
-                                            <title>Store Oggetto Faq Module Section</title>
-                                        </oggetto_faq_options>
-                                    </children>
-                                </config>
-                            </children>
-                        </system>
-                    </children>
-                </admin>
-            </resources>
-        </acl>
-    </adminhtml>
 
     <frontend>
         <layout>
@@ -108,9 +74,6 @@ please refer to http://www.magentocommerce.com for more information.
         </helpers>
 
         <models>
-            <oggetto_faq_adding>
-                <class>Oggetto_Faq_Model_Adding</class>
-            </oggetto_faq_adding>
             <oggetto_faq>
                 <class>Oggetto_Faq_Model</class>
                 <resourceModel>oggetto_faq_resource</resourceModel>

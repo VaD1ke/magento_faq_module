@@ -13,7 +13,7 @@
  *
  * Do not edit or add to this file if you wish to upgrade
  * the Oggetto FAQ module to newer versions in the future.
- * If you wish to customize the Oggetto Filter module for your needs
+ * If you wish to customize the Oggetto FAQ module for your needs
  * please refer to http://www.magentocommerce.com for more information.
  *
  * @category   Oggetto
@@ -73,9 +73,9 @@ class Oggetto_Faq_Adminhtml_FaqController extends Mage_Adminhtml_Controller_Acti
                 $model = Mage::getModel('oggetto_faq/questions');
                 $model->setData($data)->setId($this->getRequest()->getParam('id'));
                 if ($data['answer_text']) {
-                    $model->setIsAnswered(1);
+                    $model->setAnswered();
                 } else {
-                    $model->setIsAnswered(0);
+                    $model->setNotAnswered();
                 }
 
                 $model->save();
