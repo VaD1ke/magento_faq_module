@@ -43,11 +43,21 @@ class Oggetto_Faq_Model_Questions extends Mage_Core_Model_Abstract
         $this->_init('oggetto_faq/questions');
     }
 
+    /**
+     * Set question to answered flag
+     *
+     * @return void
+     */
     public function setAnswered()
     {
         $this->setIsAnswered(1);
     }
 
+    /**
+     * Set question to not answered flag
+     *
+     * @return void
+     */
     public function setNotAnswered()
     {
         $this->setIsAnswered(0);
