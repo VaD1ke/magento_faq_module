@@ -23,7 +23,7 @@
  */
 
 /**
- * Questions Collection
+ * Questions Model
  *
  * @category   Oggetto
  * @package    Oggetto_Faq
@@ -63,4 +63,30 @@ class Oggetto_Faq_Model_Questions extends Mage_Core_Model_Abstract
         $this->setIsAnswered(0);
     }
 
+    /**
+     * Validate users name, email and question is empty
+     *
+     * @return array|bool
+     * @throws Exception
+     * @throws Zend_Validate_Exception
+     */
+    public function validate()
+    {
+        $errors = array();
+        if (!Zend_Validate::is($this->getName(), 'NotEmpty')) {
+            $errors[] = Mage::helper('oggetto_faq')->__('Name is required');
+        }
+        if (!Zend_Validate::is($this->getEmail(), 'NotEmpty')) {
+            $errors[] = Mage::helper('oggetto_faq')->__('Email is required');
+        }
+        if (!Zend_Validate::is($this->getQuestionText(), 'NotEmpty')) {
+            $errors[] = Mage::helper('oggetto_faq')->__('Question is required');
+        }
+
+        if ($errors) {
+            return $errors;
+        }
+
+        return true;
+    }
 }

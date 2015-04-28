@@ -30,7 +30,7 @@
  * @subpackage controllers
  * @author     Vladislav Slesarenko <vslesarenko@oggettoweb.com>
  */
-class Oggetto_FAQ_IndexController extends Mage_Core_Controller_Front_Action
+class Oggetto_Faq_IndexController extends Mage_Core_Controller_Front_Action
 {
     /**
      * Display questions
@@ -74,7 +74,23 @@ class Oggetto_FAQ_IndexController extends Mage_Core_Controller_Front_Action
             $model = Mage::getModel('oggetto_faq/questions');
             $model->setData($data)->setNotAnswered();
 
-            $model->save();
+            $errors = $model->validate();
+
+            if ($errors === true) {
+                $model->save();
+            } else {
+                $errorText = 'Unable to submit your request. ';
+
+                for ($i = 0; $i < count($errors); $i++) {
+                    $errorText .= $errors[$i] . '. ';
+                }
+
+
+                $this->_redirect('faq/index/ask');
+                Mage::getSingleton('core/session')
+                    ->addError(Mage::helper('oggetto_faq')->__($errorText));
+                return;
+            }
 
             Mage::getSingleton('adminhtml/session')->addSuccess(
                 $this->__('Question was saved successfully')
