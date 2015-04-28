@@ -28,7 +28,7 @@ please refer to http://www.magentocommerce.com for more information.
                 <oggetto_faq module="oggetto_faq">
                     <title>Questions</title>
                     <sort_order>120</sort_order>
-                    <action>oggetto_faq_admin/adminhtml_faq</action>
+                    <action>adminhtml/question/index</action>
                 </oggetto_faq>
             </children>
         </customer>
@@ -43,7 +43,7 @@ please refer to http://www.magentocommerce.com for more information.
                             <config>
                                 <children>
                                     <oggetto_faq_options>
-                                        <title>Store Oggetto Faq Module Section</title>
+                                        <title>Oggetto Faq Module Section</title>
                                     </oggetto_faq_options>
                                 </children>
                             </config>
@@ -53,4 +53,5 @@ please refer to http://www.magentocommerce.com for more information.
             </admin>
         </resources>
     </acl>
+
 </config>

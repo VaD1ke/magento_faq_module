@@ -31,13 +31,21 @@ please refer to http://www.magentocommerce.com for more information.
 
     <admin>
         <routers>
-            <oggetto_faq_admin>
+            <!--<oggetto_faq_admin>
                 <use>admin</use>
                 <args>
                     <module>Oggetto_Faq</module>
                     <frontName>oggetto_faq_admin</frontName>
                 </args>
             </oggetto_faq_admin>
+            -->
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Oggetto_Faq after="Mage_Adminhtml">Oggetto_Faq_Adminhtml</Oggetto_Faq>
+                    </modules>
+                </args>
+            </adminhtml>
         </routers>
     </admin>
 
@@ -105,5 +113,13 @@ please refer to http://www.magentocommerce.com for more information.
             </disable_options>
         </oggetto_faq_options>
     </default>
+
+    <phpunit>
+        <suite>
+            <modules>
+                <Oggetto_Faq />
+            </modules>
+        </suite>
+    </phpunit>
 
 </config>

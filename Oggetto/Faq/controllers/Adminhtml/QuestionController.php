@@ -30,7 +30,7 @@
  * @subpackage controllers
  * @author     Vladislav Slesarenko <vslesarenko@oggettoweb.com>
  */
-class Oggetto_Faq_Adminhtml_FaqController extends Mage_Adminhtml_Controller_Action
+class Oggetto_Faq_Adminhtml_QuestionController extends Mage_Adminhtml_Controller_Action
 {
     /**
      * Display grid with questions
@@ -81,7 +81,7 @@ class Oggetto_Faq_Adminhtml_FaqController extends Mage_Adminhtml_Controller_Acti
                 $model->save();
 
                 Mage::getSingleton('adminhtml/session')->addSuccess(
-                    $this->__('Questions was saved successfully')
+                    $this->__('Question was saved successfully')
                 );
                 Mage::getSingleton('adminhtml/session')->setFormData(false);
 
@@ -139,7 +139,7 @@ class Oggetto_Faq_Adminhtml_FaqController extends Mage_Adminhtml_Controller_Acti
      */
     public function massDeleteAction()
     {
-        $questions = $this->getRequest()->getParam('questions', null);
+        $questions = $this->getRequest()->getParam('questions');
 
         if (is_array($questions) && sizeof($questions) > 0) {
             try {
