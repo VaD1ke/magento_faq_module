@@ -78,22 +78,29 @@ class Oggetto_Faq_Test_Controller_Adminhtml_Question extends Oggetto_Phpunit_Tes
     /**
      * Tests save question action
      *
+     * @param array $dataSet expected data
      * @param array $post post data
      *
      * @return void
      *
      * @dataProvider dataProvider
      */
-    public function testSaveAction($post)
+    public function testSaveAction($dataSet, $post)
     {
 
         $this->getRequest()->setMethod('POST');
         $this->getRequest()->setPost($post);
 
-        $model = $this->getModelMock('oggetto_faq/questions', array('save'));
+        $model = $this->getModelMock('oggetto_faq/questions', array('save', 'setAnswered', 'setNotAnswered'));
 
         $model->expects($this->once())
             ->method('save');
+
+        $model->expects($this->exactly((int)$this->expected($dataSet)->getSetAnsweredInvokes()))
+            ->method('setAnswered');
+
+        $model->expects($this->exactly((int)$this->expected($dataSet)->getSetNotAnsweredInvokes()))
+            ->method('setNotAnswered');
 
         $this->replaceByMock('model', 'oggetto_faq/questions', $model);
 

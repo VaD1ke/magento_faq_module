@@ -1,3 +1,8 @@
 -
+  - is_answered
   - question_text: test
     answer_text: atest
+-
+  - is_not_answered
+  - question_text: test
+    answer_text: null
