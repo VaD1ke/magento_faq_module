@@ -54,25 +54,19 @@ class Oggetto_Faq_Test_Block_Questions extends EcomDev_PHPUnit_Test_Case
      * Tests ask page is disabled
      *
      * @return void
-     *
-     * @loadFixture
      */
     public function testChecksAskOptionIsDisabled()
     {
-        $isDisabled = $this->_questionsBlock->isDisabledAsk();
-        $this->assertEquals(1, $isDisabled);
-    }
+        $value = 4;
 
-    /**
-     * Tests ask page is enabled
-     *
-     * @return void
-     *
-     * @loadFixture
-     */
-    public function testChecksAskOptionIsEnabled()
-    {
-        $isDisabled = $this->_questionsBlock->isDisabledAsk();
-        $this->assertEquals(0, $isDisabled);
+        $helperDataMock = $this->getHelperMock('oggetto_faq/data', ['isDisabledAddingOptionData']);
+
+        $helperDataMock->expects($this->once())
+            ->method('isDisabledAddingOptionData')
+            ->will($this->returnValue($value));
+
+        $this->replaceByMock('helper', 'oggetto_faq', $helperDataMock);
+
+        $this->assertEquals($value, $this->_questionsBlock->isDisabledAsk());
     }
 }

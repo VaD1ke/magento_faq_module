@@ -52,16 +52,18 @@ class Oggetto_Faq_Test_Block_Ask extends EcomDev_PHPUnit_Test_Case_Controller
 
     public function testGetsQuestionAskUrl()
     {
+        $testValue = 'test';
+
         $coreUrl = $this->getModelMock('core/url', ['getUrl']);
 
         $coreUrl->expects($this->once())
             ->method('getUrl')
             ->with('faq/index/add')
-            ->willReturn('test');
+            ->willReturn($testValue);
 
         $this->replaceByMock('model', 'core/url', $coreUrl);
 
-        $this->assertEquals('test', $this->_askBlock->getQuestionAddUrl());
+        $this->assertEquals($testValue, $this->_askBlock->getQuestionAddUrl());
     }
 
 }
