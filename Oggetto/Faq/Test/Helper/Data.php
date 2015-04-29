@@ -44,17 +44,4 @@ class Oggetto_Faq_Test_Helper_Data extends EcomDev_PHPUnit_Test_Case
         $isDisabled = Mage::helper('oggetto_faq')->isDisabledAddingOptionData();
         $this->assertEquals(1, $isDisabled);
     }
-
-    /**
-     * Tests adding option is enabled
-     *
-     * @return void
-     *
-     * @loadFixture
-     */
-    public function testChecksAddingOptionIsEnabled()
-    {
-        $isDisabled = Mage::helper('oggetto_faq')->isDisabledAddingOptionData();
-        $this->assertEquals(0, $isDisabled);
-    }
 }
