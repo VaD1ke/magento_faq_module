@@ -37,15 +37,18 @@ class Oggetto_Faq_Test_Controller_Index extends EcomDev_PHPUnit_Test_Case_Contro
      *
      * @return void
      */
-    public function testIndex()
+    public function testIndexAction()
     {
         $this->dispatch('faq');
+        /*
         $this->assertRequestDispatched();
         $this->assertRequestNotForwarded();
         $this->assertRequestControllerModule('Oggetto_Faq');
         $this->assertRequestRouteName('oggetto_faq');
         $this->assertRequestControllerName('index');
         $this->assertRequestActionName('index');
+        */
+        $this->assertRequestsDispatchForwardRouteAndController('index');
 
         $this->assertLayoutHandleLoaded('oggetto_faq_index_index');
         $this->assertLayoutRendered();
@@ -67,7 +70,7 @@ class Oggetto_Faq_Test_Controller_Index extends EcomDev_PHPUnit_Test_Case_Contro
      *
      * @dataProvider dataProvider
      */
-    public function testAdd($post)
+    public function testAddAction($post)
     {
         $this->getRequest()->setMethod('POST');
         $this->getRequest()->setPost($post);
@@ -93,13 +96,18 @@ class Oggetto_Faq_Test_Controller_Index extends EcomDev_PHPUnit_Test_Case_Contro
      *
      * @loadFixture
      */
-    public function testAskWithEnabledAdding()
+    public function testAskActionWithEnabledAddingOption()
     {
         $this->dispatch('faq/index/ask');
+        /*
         $this->assertRequestDispatched();
         $this->assertRequestNotForwarded();
         $this->assertRequestControllerModule('Oggetto_Faq');
         $this->assertRequestRouteName('oggetto_faq');
+        $this->assertRequestControllerName('index');
+        $this->assertRequestActionName('ask');
+        */
+        $this->assertRequestsDispatchForwardRouteAndController('ask');
 
         $this->assertLayoutHandleLoaded('oggetto_faq_index_ask');
         $this->assertLayoutRendered();
@@ -117,12 +125,36 @@ class Oggetto_Faq_Test_Controller_Index extends EcomDev_PHPUnit_Test_Case_Contro
      *
      * @loadFixture
      */
-    public function testAskWithDisabledAdding()
+    public function testAskActionWithDisabledAddingOption()
     {
         $this->dispatch('faq/index/ask');
+        /*
         $this->assertRequestDispatched();
         $this->assertRequestNotForwarded();
+        $this->assertRequestControllerModule('Oggetto_Faq');
+        $this->assertRequestRouteName('oggetto_faq');
+        $this->assertRequestControllerName('index');
+        $this->assertRequestActionName('ask');
+        */
+        $this->assertRequestsDispatchForwardRouteAndController('ask');
 
         $this->assertRedirectTo('faq');
+    }
+
+    /**
+     * Test pack for asserting Request dispatched, not forwarded, Controller module, name and action for oggetto_faq module
+     *
+     * @param string $actionName Name of action
+     *
+     * @return void
+     */
+    private function assertRequestsDispatchForwardRouteAndController($actionName)
+    {
+        $this->assertRequestDispatched();
+        $this->assertRequestNotForwarded();
+        $this->assertRequestControllerModule('Oggetto_Faq');
+        $this->assertRequestRouteName('oggetto_faq');
+        $this->assertRequestControllerName('index');
+        $this->assertRequestActionName($actionName);
     }
 }

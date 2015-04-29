@@ -37,7 +37,7 @@ class Oggetto_Faq_Test_Config_Main extends EcomDev_PHPUnit_Test_Case_Config
      *
      * @return void
      */
-    public function testSetupResources()
+    public function testChecksSetupResourcesDefinedAndExists()
     {
         $this->assertSetupResourceDefined();
         $this->assertSetupResourceExists();
@@ -48,7 +48,7 @@ class Oggetto_Faq_Test_Config_Main extends EcomDev_PHPUnit_Test_Case_Config
      *
      * @return void
      */
-    public function testClassAliases()
+    public function testChecksClassAliasesForModelResourceAndHelper()
     {
         $this->assertModelAlias('oggetto_faq/questions', 'Oggetto_Faq_Model_Questions');
         $this->assertResourceModelAlias('oggetto_faq/questions', 'Oggetto_Faq_Model_Resource_Questions');
@@ -60,7 +60,7 @@ class Oggetto_Faq_Test_Config_Main extends EcomDev_PHPUnit_Test_Case_Config
      *
      * @return void
      */
-    public function testConfigNode()
+    public function testChecksConfigNodeValueOfBlockClass()
     {
         $this->assertConfigNodeValue('global/blocks/oggetto_faq/class', 'Oggetto_Faq_Block');
     }
@@ -70,7 +70,7 @@ class Oggetto_Faq_Test_Config_Main extends EcomDev_PHPUnit_Test_Case_Config
      *
      * @return void
      */
-    public function testModule()
+    public function testChecksModuleCodePoolAndVersion()
     {
         $this->assertModuleCodePool('local', 'oggetto_faq');
         $this->assertModuleVersion('0.0.1');
@@ -81,7 +81,7 @@ class Oggetto_Faq_Test_Config_Main extends EcomDev_PHPUnit_Test_Case_Config
      *
      * @return void
      */
-    public function testLayout()
+    public function testChecksFrontendLayoutDefinedAndExists()
     {
         $this->assertLayoutFileDefined('frontend', 'oggetto_faq.xml');
         $this->assertLayoutFileExists('frontend', 'oggetto_faq.xml');
@@ -92,7 +92,7 @@ class Oggetto_Faq_Test_Config_Main extends EcomDev_PHPUnit_Test_Case_Config
      *
      * @return void
      */
-    public function testTableAlias()
+    public function testChecksQuestionsTableAlias()
     {
         $this->assertTableAlias('oggetto_faq/table_questions', 'oggetto_faq_questions');
     }

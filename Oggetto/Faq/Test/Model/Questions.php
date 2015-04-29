@@ -51,7 +51,7 @@ class Oggetto_Faq_Test_Model_Questions extends EcomDev_PHPUnit_Test_Case
     }
 
     /**
-     * Test validation of adding questions
+     * Test validation of adding questions if name, email, question text is not empty
      *
      * @param array $dataSet expected data
      * @param array $data    data
@@ -60,7 +60,7 @@ class Oggetto_Faq_Test_Model_Questions extends EcomDev_PHPUnit_Test_Case
      *
      * @dataProvider dataProvider
      */
-    public function testValidate($dataSet, $data)
+    public function testValidatesAddedQuestionOnEmpty($dataSet, $data)
     {
         $this->_model->setData($data);
 

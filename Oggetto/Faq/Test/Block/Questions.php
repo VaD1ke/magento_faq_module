@@ -37,7 +37,7 @@ class Oggetto_Faq_Test_Block_Questions extends EcomDev_PHPUnit_Test_Case
      *
      * @var Mage_Core_Block_Template
      */
-    protected $_questions;
+    protected $_questionsBlock;
 
     /**
      * Set up initial variables
@@ -47,7 +47,7 @@ class Oggetto_Faq_Test_Block_Questions extends EcomDev_PHPUnit_Test_Case
     protected function setUp()
     {
         parent::setUp();
-        $this->_questions = new Oggetto_Faq_Block_Questions;
+        $this->_questionsBlock = new Oggetto_Faq_Block_Questions;
     }
 
     /**
@@ -57,9 +57,9 @@ class Oggetto_Faq_Test_Block_Questions extends EcomDev_PHPUnit_Test_Case
      *
      * @loadFixture
      */
-    public function testIsDisabledAsk()
+    public function testChecksAskOptionIsDisabled()
     {
-        $isDisabled = $this->_questions->isDisabledAsk();
+        $isDisabled = $this->_questionsBlock->isDisabledAsk();
         $this->assertEquals(1, $isDisabled);
     }
 
@@ -70,9 +70,9 @@ class Oggetto_Faq_Test_Block_Questions extends EcomDev_PHPUnit_Test_Case
      *
      * @loadFixture
      */
-    public function testIsEnabledAsk()
+    public function testChecksAskOptionIsEnabled()
     {
-        $isDisabled = $this->_questions->isDisabledAsk();
+        $isDisabled = $this->_questionsBlock->isDisabledAsk();
         $this->assertEquals(0, $isDisabled);
     }
 }

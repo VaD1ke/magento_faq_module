@@ -39,7 +39,7 @@ class Oggetto_Faq_Test_Helper_Data extends EcomDev_PHPUnit_Test_Case
      *
      * @loadFixture
      */
-    public function testIsDisabledAddingOptionData()
+    public function testChecksAddingOptionIsDisabled()
     {
         $isDisabled = Mage::helper('oggetto_faq')->isDisabledAddingOptionData();
         $this->assertEquals(1, $isDisabled);
@@ -52,7 +52,7 @@ class Oggetto_Faq_Test_Helper_Data extends EcomDev_PHPUnit_Test_Case
      *
      * @loadFixture
      */
-    public function testIsEnabledAddingOptionData()
+    public function testChecksAddingOptionIsEnabled()
     {
         $isDisabled = Mage::helper('oggetto_faq')->isDisabledAddingOptionData();
         $this->assertEquals(0, $isDisabled);
