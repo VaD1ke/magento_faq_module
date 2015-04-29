@@ -48,11 +48,11 @@ class Oggetto_Faq_Test_Controller_Adminhtml_Question extends Oggetto_Phpunit_Tes
      *
      * @return void
      */
-    public function testIndexAction()
+    public function testIndexActionChecksLayoutRendered()
     {
         $this->dispatch('adminhtml/question/index');
 
-        $this->assertRequestsDispatchForwardAndController('index');
+        $this->_assertRequestsDispatchForwardAndController('index');
 
         $this->assertLayoutLoaded();
         $this->assertLayoutRendered();
@@ -65,29 +65,28 @@ class Oggetto_Faq_Test_Controller_Adminhtml_Question extends Oggetto_Phpunit_Tes
      *
      * @return void
      */
-    public function testEditAction()
+    public function testEditActionChecksLayoutRendered()
     {
         $this->dispatch('adminhtml/question/edit');
 
-        $this->assertRequestsDispatchForwardAndController('edit');
+        $this->_assertRequestsDispatchForwardAndController('edit');
 
         $this->assertLayoutLoaded();
         $this->assertLayoutRendered();
     }
 
+
     /**
-     * Tests save question action
+     * Tests save question action with is answered status
      *
-     * @param array $dataSet expected data
-     * @param array $post    post data
+     * @param array $post post data
      *
      * @return void
      *
      * @dataProvider dataProvider
      */
-    public function testSaveAction($dataSet, $post)
+    public function testSaveActionSavesQuestionCheckIsAnsweredStatus($post)
     {
-
         $this->getRequest()->setMethod('POST');
         $this->getRequest()->setPost($post);
 
@@ -96,17 +95,49 @@ class Oggetto_Faq_Test_Controller_Adminhtml_Question extends Oggetto_Phpunit_Tes
         $model->expects($this->once())
             ->method('save');
 
-        $model->expects($this->exactly((int)$this->expected($dataSet)->getSetAnsweredInvokes()))
+        $model->expects($this->once())
             ->method('setAnswered');
 
-        $model->expects($this->exactly((int)$this->expected($dataSet)->getSetNotAnsweredInvokes()))
+        $model->expects($this->never())
             ->method('setNotAnswered');
 
         $this->replaceByMock('model', 'oggetto_faq/questions', $model);
 
         $this->dispatch('adminhtml/question/save');
 
-        $this->assertRequestsDispatchForwardAndController('save');
+        $this->_assertRequestsDispatchForwardAndController('save');
+    }
+
+    /**
+     * Tests save question action with is not answered status
+     *
+     * @param array $post post data
+     *
+     * @return void
+     *
+     * @dataProvider dataProvider
+     */
+    public function testSaveActionSavesQuestionCheckIsNotAnsweredStatus($post)
+    {
+        $this->getRequest()->setMethod('POST');
+        $this->getRequest()->setPost($post);
+
+        $model = $this->getModelMock('oggetto_faq/questions', array('save', 'setAnswered', 'setNotAnswered'));
+
+        $model->expects($this->once())
+            ->method('save');
+
+        $model->expects($this->never())
+            ->method('setAnswered');
+
+        $model->expects($this->once())
+            ->method('setNotAnswered');
+
+        $this->replaceByMock('model', 'oggetto_faq/questions', $model);
+
+        $this->dispatch('adminhtml/question/save');
+
+        $this->_assertRequestsDispatchForwardAndController('save');
     }
 
     /**
@@ -130,7 +161,7 @@ class Oggetto_Faq_Test_Controller_Adminhtml_Question extends Oggetto_Phpunit_Tes
 
         $this->dispatch('adminhtml/question/delete');
 
-        $this->assertRequestsDispatchForwardAndController('delete');
+        $this->_assertRequestsDispatchForwardAndController('delete');
     }
 
     /**
@@ -160,7 +191,7 @@ class Oggetto_Faq_Test_Controller_Adminhtml_Question extends Oggetto_Phpunit_Tes
 
         $this->dispatch('adminhtml/question/massDelete');
 
-        $this->assertRequestsDispatchForwardAndController('massDelete');
+        $this->_assertRequestsDispatchForwardAndController('massDelete');
     }
 
     /**
@@ -170,11 +201,13 @@ class Oggetto_Faq_Test_Controller_Adminhtml_Question extends Oggetto_Phpunit_Tes
      *
      * @return void
      */
-    private function assertRequestsDispatchForwardAndController($actionName)
+    private function _assertRequestsDispatchForwardAndController($actionName)
     {
         $this->assertRequestDispatched();
         $this->assertRequestNotForwarded();
         $this->assertRequestControllerModule('Oggetto_Faq_Adminhtml');
+
+        $this->assertRequestRouteName('adminhtml');
         $this->assertRequestControllerName('question');
         $this->assertRequestActionName($actionName);
     }

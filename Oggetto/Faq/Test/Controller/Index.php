@@ -37,11 +37,11 @@ class Oggetto_Faq_Test_Controller_Index extends EcomDev_PHPUnit_Test_Case_Contro
      *
      * @return void
      */
-    public function testIndexAction()
+    public function testIndexActionChecksLayoutRendered()
     {
         $this->dispatch('faq');
 
-        $this->assertRequestsDispatchForwardRouteAndController('index');
+        $this->_assertRequestsDispatchForwardRouteAndController('index');
 
         $this->assertLayoutHandleLoaded('oggetto_faq_index_index');
         $this->assertLayoutRendered();
@@ -63,7 +63,7 @@ class Oggetto_Faq_Test_Controller_Index extends EcomDev_PHPUnit_Test_Case_Contro
      *
      * @dataProvider dataProvider
      */
-    public function testAddAction($post)
+    public function testAddActionSavesAndValidatesQuestion($post)
     {
         $this->getRequest()->setMethod('POST');
         $this->getRequest()->setPost($post);
@@ -89,11 +89,11 @@ class Oggetto_Faq_Test_Controller_Index extends EcomDev_PHPUnit_Test_Case_Contro
      *
      * @loadFixture
      */
-    public function testAskActionWithEnabledAddingOption()
+    public function testAskActionChecksLayoutRenderedWithEnabledAddingOption()
     {
         $this->dispatch('faq/index/ask');
 
-        $this->assertRequestsDispatchForwardRouteAndController('ask');
+        $this->_assertRequestsDispatchForwardRouteAndController('ask');
 
         $this->assertLayoutHandleLoaded('oggetto_faq_index_ask');
         $this->assertLayoutRendered();
@@ -111,11 +111,11 @@ class Oggetto_Faq_Test_Controller_Index extends EcomDev_PHPUnit_Test_Case_Contro
      *
      * @loadFixture
      */
-    public function testAskActionWithDisabledAddingOption()
+    public function testAskActionChecksRedirectToFaqPageWithDisabledAddingOption()
     {
         $this->dispatch('faq/index/ask');
 
-        $this->assertRequestsDispatchForwardRouteAndController('ask');
+        $this->_assertRequestsDispatchForwardRouteAndController('ask');
 
         $this->assertRedirectTo('faq');
     }
@@ -127,7 +127,7 @@ class Oggetto_Faq_Test_Controller_Index extends EcomDev_PHPUnit_Test_Case_Contro
      *
      * @return void
      */
-    private function assertRequestsDispatchForwardRouteAndController($actionName)
+    private function _assertRequestsDispatchForwardRouteAndController($actionName)
     {
         $this->assertRequestDispatched();
         $this->assertRequestNotForwarded();
