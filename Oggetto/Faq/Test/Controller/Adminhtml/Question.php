@@ -167,25 +167,26 @@ class Oggetto_Faq_Test_Controller_Adminhtml_Question extends Oggetto_Phpunit_Tes
     /**
      * Tests mass delete question action
      *
+     * @param array $data questions id to delete
+     *
+     * @dataProvider dataProvider
+     *
      * @return void
      */
-    public function testMassDeleteAction()
+    public function testMassDeleteAction($data)
     {
-        $quantityOfQuestionsToDelete = 3;
-        $questionsId = [];
-        for ($i = 1; $i <= $quantityOfQuestionsToDelete; $i++) {
-            $questionsId[] = strval($i);
-        }
-
-        $this->getRequest()->setParam('questions', $questionsId);
+        $this->getRequest()->setParam('questions', $data);
 
         $model = $this->getModelMock('oggetto_faq/questions', array('delete', 'setId'));
 
-        $model->expects($this->exactly($quantityOfQuestionsToDelete))
-            ->method('setId')
-            ->willReturnSelf();
-        $model->expects($this->exactly($quantityOfQuestionsToDelete))
-            ->method('delete');
+        foreach ($data as $index => $id) {
+            $model->expects($this->at($index * 2))
+                ->method('setId')
+                ->with($this->equalTo($id))
+                ->willReturnSelf();
+            $model->expects($this->at($index * 2 + 1))
+                ->method('delete');
+        }
 
         $this->replaceByMock('model', 'oggetto_faq/questions', $model);
 

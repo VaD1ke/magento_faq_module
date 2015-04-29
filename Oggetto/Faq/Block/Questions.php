@@ -64,7 +64,7 @@ class Oggetto_Faq_Block_Questions extends Mage_Core_Block_Template
      */
     public function getQuestionAskUrl()
     {
-        return Mage::getUrl('faq/index/ask');
+        return $this->getUrl('faq/index/ask');
     }
 
     /**
