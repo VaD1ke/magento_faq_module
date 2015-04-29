@@ -21,15 +21,15 @@ please refer to http://www.magentocommerce.com for more information.
 @copyright  Copyright (C) 2015 Oggetto Web (http://oggettoweb.com)
 @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 -->
- <layout>
+<layout>
     <oggetto_faq_index_index>
         <reference name="content">
-            <block type="oggetto_faq/questions" template="faq/index.phtml" />
+            <block type="oggetto_faq/questions" name="questions.content" template="faq/index.phtml"/>
         </reference>
     </oggetto_faq_index_index>
     <oggetto_faq_index_ask>
         <reference name="content">
-            <block type="oggetto_faq/ask" name="questions.content" template="faq/ask.phtml" />
+            <block type="oggetto_faq/ask" name="ask.content" template="faq/ask.phtml"/>
         </reference>
     </oggetto_faq_index_ask>
 </layout>

@@ -79,7 +79,7 @@ class Oggetto_Faq_Test_Controller_Adminhtml_Question extends Oggetto_Phpunit_Tes
      * Tests save question action
      *
      * @param array $dataSet expected data
-     * @param array $post post data
+     * @param array $post    post data
      *
      * @return void
      *
