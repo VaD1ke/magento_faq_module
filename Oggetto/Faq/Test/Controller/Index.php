@@ -40,14 +40,7 @@ class Oggetto_Faq_Test_Controller_Index extends EcomDev_PHPUnit_Test_Case_Contro
     public function testIndexAction()
     {
         $this->dispatch('faq');
-        /*
-        $this->assertRequestDispatched();
-        $this->assertRequestNotForwarded();
-        $this->assertRequestControllerModule('Oggetto_Faq');
-        $this->assertRequestRouteName('oggetto_faq');
-        $this->assertRequestControllerName('index');
-        $this->assertRequestActionName('index');
-        */
+
         $this->assertRequestsDispatchForwardRouteAndController('index');
 
         $this->assertLayoutHandleLoaded('oggetto_faq_index_index');
@@ -99,14 +92,7 @@ class Oggetto_Faq_Test_Controller_Index extends EcomDev_PHPUnit_Test_Case_Contro
     public function testAskActionWithEnabledAddingOption()
     {
         $this->dispatch('faq/index/ask');
-        /*
-        $this->assertRequestDispatched();
-        $this->assertRequestNotForwarded();
-        $this->assertRequestControllerModule('Oggetto_Faq');
-        $this->assertRequestRouteName('oggetto_faq');
-        $this->assertRequestControllerName('index');
-        $this->assertRequestActionName('ask');
-        */
+
         $this->assertRequestsDispatchForwardRouteAndController('ask');
 
         $this->assertLayoutHandleLoaded('oggetto_faq_index_ask');
@@ -128,21 +114,14 @@ class Oggetto_Faq_Test_Controller_Index extends EcomDev_PHPUnit_Test_Case_Contro
     public function testAskActionWithDisabledAddingOption()
     {
         $this->dispatch('faq/index/ask');
-        /*
-        $this->assertRequestDispatched();
-        $this->assertRequestNotForwarded();
-        $this->assertRequestControllerModule('Oggetto_Faq');
-        $this->assertRequestRouteName('oggetto_faq');
-        $this->assertRequestControllerName('index');
-        $this->assertRequestActionName('ask');
-        */
+
         $this->assertRequestsDispatchForwardRouteAndController('ask');
 
         $this->assertRedirectTo('faq');
     }
 
     /**
-     * Test pack for asserting Request dispatched, not forwarded, Controller module, name and action for oggetto_faq module
+     * Test pack for asserting Request dispatched, not forwarded, Controller module, name and action for oggetto faq
      *
      * @param string $actionName Name of action
      *
