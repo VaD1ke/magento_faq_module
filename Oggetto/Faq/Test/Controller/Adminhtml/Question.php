@@ -122,7 +122,7 @@ class Oggetto_Faq_Test_Controller_Adminhtml_Question extends Oggetto_Phpunit_Tes
         $this->getRequest()->setMethod('POST');
         $this->getRequest()->setPost($post);
 
-        $model = $this->getModelMock('oggetto_faq/questions', array('save', 'setAnswered', 'setNotAnswered'));
+        $model = $this->getModelMock('oggetto_faq/questions', ['save', 'setAnswered', 'setNotAnswered']);
 
         $model->expects($this->once())
             ->method('save');
@@ -149,7 +149,7 @@ class Oggetto_Faq_Test_Controller_Adminhtml_Question extends Oggetto_Phpunit_Tes
     {
         $this->getRequest()->setParam('id', '777');
 
-        $model = $this->getModelMock('oggetto_faq/questions', array('delete', 'setId'));
+        $model = $this->getModelMock('oggetto_faq/questions', ['delete', 'setId']);
 
         $model->expects($this->once())
             ->method('setId')
@@ -177,7 +177,7 @@ class Oggetto_Faq_Test_Controller_Adminhtml_Question extends Oggetto_Phpunit_Tes
     {
         $this->getRequest()->setParam('questions', $data);
 
-        $model = $this->getModelMock('oggetto_faq/questions', array('delete', 'setId'));
+        $model = $this->getModelMock('oggetto_faq/questions', ['delete', 'setId']);
 
         foreach ($data as $index => $id) {
             $model->expects($this->at($index * 2))

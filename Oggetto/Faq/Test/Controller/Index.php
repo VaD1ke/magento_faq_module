@@ -68,14 +68,14 @@ class Oggetto_Faq_Test_Controller_Index extends EcomDev_PHPUnit_Test_Case_Contro
         $this->getRequest()->setMethod('POST');
         $this->getRequest()->setPost($post);
 
-        $model = $this->getModelMock('oggetto_faq/questions', array('save', 'validate'));
+        $model = $this->getModelMock('oggetto_faq/questions', ['save', 'validate']);
 
         $model->expects($this->once())
             ->method('save');
 
         $model->expects($this->once())
             ->method('validate')
-            ->will($this->returnValue((true)));
+            ->will($this->returnValue(true));
 
         $this->replaceByMock('model', 'oggetto_faq/questions', $model);
 
@@ -86,11 +86,11 @@ class Oggetto_Faq_Test_Controller_Index extends EcomDev_PHPUnit_Test_Case_Contro
      * Tests asking questions method when adding option is enabled
      *
      * @return void
-     *
-     * @loadFixture
      */
     public function testAskActionChecksLayoutRenderedWithEnabledAddingOption()
     {
+        $this->_replaceMockForAddingOptionData(0);
+
         $this->dispatch('faq/index/ask');
 
         $this->_assertRequestsDispatchForwardRouteAndController('ask');
@@ -108,11 +108,11 @@ class Oggetto_Faq_Test_Controller_Index extends EcomDev_PHPUnit_Test_Case_Contro
      * Tests asking questions method when adding option is disabled
      *
      * @return void
-     *
-     * @loadFixture
      */
     public function testAskActionChecksRedirectToFaqPageWithDisabledAddingOption()
     {
+        $this->_replaceMockForAddingOptionData(1);
+
         $this->dispatch('faq/index/ask');
 
         $this->_assertRequestsDispatchForwardRouteAndController('ask');
@@ -136,4 +136,24 @@ class Oggetto_Faq_Test_Controller_Index extends EcomDev_PHPUnit_Test_Case_Contro
         $this->assertRequestControllerName('index');
         $this->assertRequestActionName($actionName);
     }
+
+
+    /**
+     * Replace helper mock and set adding option data
+     *
+     * @param boolean $disabled Adding disabled
+     *
+     * @return void
+     */
+    private function _replaceMockForAddingOptionData($disabled)
+    {
+        $helperDataMock = $this->getHelperMock('oggetto_faq/data', ['isDisabledAddingOptionData']);
+
+        $helperDataMock->expects($this->once())
+            ->method('isDisabledAddingOptionData')
+            ->will($this->returnValue($disabled));
+
+        $this->replaceByMock('helper', 'oggetto_faq', $helperDataMock);
+    }
+
 }
