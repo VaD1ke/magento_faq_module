@@ -33,7 +33,7 @@
 class Oggetto_Faq_Test_Model_Resource_Questions extends EcomDev_PHPUnit_Test_Case
 {
     /**
-     * Model questions
+     * Resource model questions
      *
      * @var Mage_Core_Model_Abstract
      */
