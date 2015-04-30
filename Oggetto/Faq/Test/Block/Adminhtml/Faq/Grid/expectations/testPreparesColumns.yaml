@@ -1,0 +1,41 @@
+-
+  id: question_id
+  params:
+    header: Question ID
+    index: question_id
+-
+  id: name
+  params:
+    header: User Name
+    index: name
+    type: varchar
+-
+  id: email
+  params:
+    header: User Email
+    index: email
+    type: varchar
+-
+  id: question_text
+  params:
+    header: Question
+    index: question_text
+    type: varchar
+-
+  id: answer_text
+  params:
+    header: Answer
+    index: answer_text
+    type: varchar
+-
+  id: created_at
+  params:
+    header: Created
+    index: created_at
+    type: timestamp
+-
+  id: is_answered
+  params:
+    header: Is answered
+    index: is_answered
+    type: boolean

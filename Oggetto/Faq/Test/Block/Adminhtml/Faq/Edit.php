@@ -43,7 +43,7 @@ class Oggetto_Faq_Test_Block_Adminhtml_Faq_Edit extends EcomDev_PHPUnit_Test_Cas
 
         $block = $this->getMockBuilder('Oggetto_Faq_Block_Adminhtml_Faq_Edit')
             ->disableOriginalConstructor()
-            ->setMethods(['updateButton', 'addButton'])
+            ->setMethods(null)
             ->getMock();
 
         $reflected = new ReflectionClass('Oggetto_Faq_Block_Adminhtml_Faq_Edit');
@@ -76,7 +76,7 @@ class Oggetto_Faq_Test_Block_Adminhtml_Faq_Edit extends EcomDev_PHPUnit_Test_Cas
             ->setMethods(null)
             ->getMock();
 
-        Mage::unregister('current_questions');
+
         $questions = $this->getModelMock('oggetto_faq/questions', ['getId']);
 
         $questions->expects($this->once())
@@ -95,5 +95,6 @@ class Oggetto_Faq_Test_Block_Adminhtml_Faq_Edit extends EcomDev_PHPUnit_Test_Cas
         $this->replaceByMock('helper', 'oggetto_faq', $helper);
 
         $this->assertEquals($testValue, $block->getHeaderText());
+        Mage::unregister('current_questions');
     }
 }
