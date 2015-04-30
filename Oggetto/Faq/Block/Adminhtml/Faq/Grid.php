@@ -107,16 +107,16 @@ class Oggetto_Faq_Block_Adminhtml_Faq_Grid extends Mage_Adminhtml_Block_Widget_G
         $this->setMassactionIdField('question_id');
         $this->getMassactionBlock()->setFormFieldName('questions');
 
-        $this->getMassactionBlock()->addItem('delete', array(
+        $this->getMassactionBlock()->addItem('delete', [
             'label' => $this->__('Delete'),
             'url'   => $this->getUrl('*/*/massDelete'),
-        ));
+        ]);
 
         return $this;
     }
 
     /**
-     * Init links for strings in grid
+     * Init links for rows in grid
      *
      * @param Mage_Core_Model_Abstract $model Question Model
      *

@@ -78,19 +78,6 @@ class Oggetto_Faq_Block_Questions extends Mage_Core_Block_Template
         return $isDisabled;
     }
 
-    /**
-     * Prepare paging
-     *
-     * @return Mage_Core_Block_Abstract
-     */
-    private function preparePager()
-    {
-        $pager = $this->getLayout()->createBlock('page/html_pager', 'custom.pager');
-        $pager->setAvailableLimit(array(5 => 5, 10 => 10, 20 => 20, 'all' => 'all'));
-        $pager->setCollection($this->getCollection());
-
-        return $pager;
-    }
 
     /**
      * Prepare layout for questions page
@@ -101,14 +88,27 @@ class Oggetto_Faq_Block_Questions extends Mage_Core_Block_Template
     {
         parent::_prepareLayout();
 
-        $pager = $this->preparePager();
+        $pager = $this->_preparePager();
 
-        $this->setChild('pager', $pager)->getCollection()->load();
+        $this->setChild('pager', $pager);
+        $this->getCollection()->load();
 
         return $this;
     }
 
 
+    /**
+     * Prepare paging
+     *
+     * @return Mage_Core_Block_Abstract
+     */
+    private function _preparePager()
+    {
+        $pager = $this->getLayout()->createBlock('page/html_pager', 'custom.pager');
+        $pager->setAvailableLimit([5 => 5, 10 => 10, 20 => 20, 'all' => 'all']);
+        $pager->setCollection($this->getCollection());
 
+        return $pager;
+    }
 
 }

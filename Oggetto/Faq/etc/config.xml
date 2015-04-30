@@ -31,14 +31,6 @@ please refer to http://www.magentocommerce.com for more information.
 
     <admin>
         <routers>
-            <!--<oggetto_faq_admin>
-                <use>admin</use>
-                <args>
-                    <module>Oggetto_Faq</module>
-                    <frontName>oggetto_faq_admin</frontName>
-                </args>
-            </oggetto_faq_admin>
-            -->
             <adminhtml>
                 <args>
                     <modules>

@@ -53,21 +53,21 @@ class Oggetto_Faq_Test_Model_Questions extends EcomDev_PHPUnit_Test_Case
     /**
      * Test validation of adding questions if name, email, question text is not empty
      *
-     * @param array $expectedData expected data
+     * @param array $dataStatus   expected statuses of validation
      * @param array $providerData data for validation
      *
      * @return void
      *
      * @dataProvider dataProvider
      */
-    public function testValidatesAddedQuestionOnEmpty($expectedData, $providerData)
+    public function testValidatesAddedQuestionOnEmpty($dataStatus, $providerData)
     {
         $this->_model->setData($providerData);
 
         $result = $this->_model->validate();
 
         $this->assertSame(
-            $this->expected($expectedData)->getResult(),
+            $this->expected($dataStatus)->getResult(),
             $result
         );
     }

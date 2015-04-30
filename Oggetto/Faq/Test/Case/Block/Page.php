@@ -33,8 +33,12 @@
 class Oggetto_Faq_Test_Case_Block_Page extends EcomDev_PHPUnit_Test_Case
 {
     /**
+     * Create and replace model mock of core url for getting url
+     *
      * @param string $action    action name of controler
      * @param string $testValue value that mock will return
+     *
+     * @return void
      */
     protected function createAndReplaceMockForGettingUrl($action, $testValue)
     {

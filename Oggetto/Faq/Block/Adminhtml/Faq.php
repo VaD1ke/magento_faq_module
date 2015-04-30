@@ -45,7 +45,6 @@ class Oggetto_Faq_Block_Adminhtml_Faq extends Mage_Adminhtml_Block_Widget_Grid_C
         $this->_blockGroup = 'oggetto_faq';
         $this->_controller = 'adminhtml_faq';
 
-
         $this->_headerText = $helper->__('FAQ Management');
     }
 
