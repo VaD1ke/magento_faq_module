@@ -32,7 +32,11 @@
  */
 class Oggetto_Faq_Test_Block_Adminhtml_Faq extends EcomDev_PHPUnit_Test_Case
 {
-
+    /**
+     * Initialize itself in constructor method
+     *
+     * @return void
+     */
     public function testInitsItselfInConstructor()
     {
 
@@ -49,7 +53,7 @@ class Oggetto_Faq_Test_Block_Adminhtml_Faq extends EcomDev_PHPUnit_Test_Case
 
         $block = $this->getMockBuilder('Oggetto_Faq_Block_Adminhtml_Faq')
             ->disableOriginalConstructor()
-            ->setMethods(['removeButton'])
+            ->setMethods(null)
             ->getMock();
 
         $reflected = new ReflectionClass('Oggetto_Faq_Block_Adminhtml_Faq');
