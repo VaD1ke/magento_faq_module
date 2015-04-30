@@ -30,7 +30,7 @@
  * @subpackage Block
  * @author     Vladislav Slesarenko <vslesarenko@oggettoweb.com>
  */
-class Oggetto_Faq_Test_Block_Questions extends EcomDev_PHPUnit_Test_Case
+class Oggetto_Faq_Test_Block_Questions extends Oggetto_Faq_Test_Case_Block_Url
 {
     /**
      * Block questions
@@ -68,5 +68,19 @@ class Oggetto_Faq_Test_Block_Questions extends EcomDev_PHPUnit_Test_Case
         $this->replaceByMock('helper', 'oggetto_faq', $helperDataMock);
 
         $this->assertEquals($value, $this->_questionsBlock->isDisabledAsk());
+    }
+
+    /**
+     * Get url for asking question page
+     *
+     * @return void
+     */
+    public function testGetsUrlForAskQuestionPage()
+    {
+        $testValue = 'test';
+
+        $this->createAndReplaceMockForGettingUrl('ask', $testValue);
+
+        $this->assertEquals($testValue, $this->_questionsBlock->getQuestionAskUrl());
     }
 }

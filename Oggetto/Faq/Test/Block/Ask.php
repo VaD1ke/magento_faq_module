@@ -30,7 +30,7 @@
  * @subpackage Block
  * @author     Vladislav Slesarenko <vslesarenko@oggettoweb.com>
  */
-class Oggetto_Faq_Test_Block_Ask extends EcomDev_PHPUnit_Test_Case_Controller
+class Oggetto_Faq_Test_Block_Ask extends Oggetto_Faq_Test_Case_Block_Url
 {
     /**
      * Block ask
@@ -50,18 +50,16 @@ class Oggetto_Faq_Test_Block_Ask extends EcomDev_PHPUnit_Test_Case_Controller
         $this->_askBlock = new Oggetto_Faq_Block_Ask;
     }
 
-    public function testGetsQuestionAskUrl()
+    /**
+     * Get url for adding question page
+     *
+     * @return void
+     */
+    public function testGetsUrlForAddQuestionPage()
     {
         $testValue = 'test';
 
-        $coreUrl = $this->getModelMock('core/url', ['getUrl']);
-
-        $coreUrl->expects($this->once())
-            ->method('getUrl')
-            ->with('faq/index/add')
-            ->willReturn($testValue);
-
-        $this->replaceByMock('model', 'core/url', $coreUrl);
+        $this->createAndReplaceMockForGettingUrl('add', $testValue);
 
         $this->assertEquals($testValue, $this->_askBlock->getQuestionAddUrl());
     }
