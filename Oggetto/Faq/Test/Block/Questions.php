@@ -30,7 +30,7 @@
  * @subpackage Block
  * @author     Vladislav Slesarenko <vslesarenko@oggettoweb.com>
  */
-class Oggetto_Faq_Test_Block_Questions extends Oggetto_Faq_Test_Case_Block_Url
+class Oggetto_Faq_Test_Block_Questions extends Oggetto_Faq_Test_Case_Block_Page
 {
     /**
      * Block questions

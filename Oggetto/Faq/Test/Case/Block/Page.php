@@ -23,45 +23,28 @@
  */
 
 /**
- * Block test class for displaying questions
+ * Block test case for showing page
  *
  * @category   Oggetto
  * @package    Oggetto_Faq
- * @subpackage Block
+ * @subpackage Case
  * @author     Vladislav Slesarenko <vslesarenko@oggettoweb.com>
  */
-class Oggetto_Faq_Test_Block_Ask extends Oggetto_Faq_Test_Case_Block_Page
+class Oggetto_Faq_Test_Case_Block_Page extends EcomDev_PHPUnit_Test_Case
 {
     /**
-     * Block ask
-     *
-     * @var Mage_Core_Block_Template
+     * @param string $action    action name of controler
+     * @param string $testValue value that mock will return
      */
-    protected $_askBlock;
-
-    /**
-     * Set up initial variable
-     *
-     * @return void
-     */
-    protected function setUp()
+    protected function createAndReplaceMockForGettingUrl($action, $testValue)
     {
-        parent::setUp();
-        $this->_askBlock = new Oggetto_Faq_Block_Ask;
+        $coreUrl = $this->getModelMock('core/url', ['getUrl']);
+
+        $coreUrl->expects($this->once())
+            ->method('getUrl')
+            ->with('faq/index/' . $action)
+            ->willReturn($testValue);
+
+        $this->replaceByMock('model', 'core/url', $coreUrl);
     }
-
-    /**
-     * Get url for adding question page
-     *
-     * @return void
-     */
-    public function testGetsUrlForAddQuestionPage()
-    {
-        $testValue = 'test';
-
-        $this->createAndReplaceMockForGettingUrl('add', $testValue);
-
-        $this->assertEquals($testValue, $this->_askBlock->getQuestionAddUrl());
-    }
-
 }
