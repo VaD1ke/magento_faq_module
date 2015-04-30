@@ -51,6 +51,42 @@ class Oggetto_Faq_Test_Block_Questions extends Oggetto_Faq_Test_Case_Block_Page
     }
 
     /**
+     * Check class alias
+     *
+     * @return void
+     */
+    public function testChecksClassAlias()
+    {
+        $this->assertInstanceOf('Oggetto_Faq_Block_Questions',
+            $this->getBlockMock('oggetto_faq/questions'));
+    }
+
+    /**
+     * Initialize itself in constructor
+     *
+     * @return void
+     */
+    public function testInitsItselfInConstructor()
+    {
+        $questions = $this->getResourceModelMock('oggetto_faq/questions_collection',
+            ['newOnTop', 'answered']);
+
+        $questions->expects($this->once())
+            ->method('newOnTop')
+            ->willReturnSelf();
+
+        $questions->expects($this->once())
+            ->method('answered');
+
+        $this->replaceByMock('resource_model', 'oggetto_faq/questions_collection', $questions);
+
+        $block = new Oggetto_Faq_Block_Questions;
+
+        $this->assertEquals($questions, $block->getCollection());
+
+    }
+
+    /**
      * Tests ask page is disabled
      *
      * @return void
@@ -82,5 +118,75 @@ class Oggetto_Faq_Test_Block_Questions extends Oggetto_Faq_Test_Case_Block_Page
         $this->createAndReplaceMockForGettingUrl('ask', $testValue);
 
         $this->assertEquals($testValue, $this->_questionsBlock->getQuestionAskUrl());
+    }
+
+    /**
+     * Get child html from block
+     *
+     * @return void
+     */
+    public function testGetsChildHtmlBlock()
+    {
+        $mockBlock = $this->getBlockMock('oggetto_faq/questions', ['getChildHtml']);
+
+        $pager = new Mage_Page_Block_Html_Pager;
+
+        $mockBlock->expects($this->once())
+            ->method('getChildHtml')
+            ->with($this->equalTo('pager'))
+            ->will($this->returnValue($pager));
+
+        $this->replaceByMock('block', 'oggetto_faq/questions', $mockBlock);
+
+        $mockBlock->getPagerHtml();
+    }
+
+    /**
+     * Add pager block while preparing
+     *
+     * @return void
+     */
+    public function testAddsPagerInPreparing()
+    {
+        $blockMock = $this->getBlockMock('oggetto_faq/questions',
+            ['getLayout', 'createBlock', 'setChild', 'getCollection']);
+
+        $questions = $this->getResourceModelMock('oggetto_faq/questions_collection',
+            ['load']);
+
+        $pagerMock = $this->getMock('Mage_Page_block_Html_Pager', ['setCollection', 'setAvailableLimit']);
+
+        $questions->expects($this->once())
+            ->method('load');
+
+        $blockMock->expects($this->exactly(2))
+            ->method('getCollection')
+            ->willReturn($questions);
+
+        $blockMock->expects($this->once())
+            ->method('getLayout')
+            ->willReturnSelf();
+
+        $pagerMock->expects($this->once())
+            ->method('setAvailableLimit')
+            ->with([5 => 5, 10 => 10, 20 => 20, 'all' => 'all']);
+
+        $pagerMock->expects($this->once())
+            ->method('setCollection')
+            ->with($this->equalTo($questions))
+            ->willReturnSelf();
+
+
+        $blockMock->expects($this->once())
+            ->method('createBlock')
+            ->with($this->equalTo('page/html_pager'), $this->equalTo('custom.pager'))
+            ->willReturn($pagerMock);
+
+        $blockMock->expects($this->once())
+            ->method('setChild')
+            ->with($this->equalTo('pager'), $this->anything())
+            ->willReturn($pagerMock);
+
+        $blockMock->setLayout(new Mage_Core_Model_Layout);
     }
 }
