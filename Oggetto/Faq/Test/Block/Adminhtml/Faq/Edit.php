@@ -23,7 +23,7 @@
  */
 
 /**
- * Block faq for admin
+ * Block edit question for admin
  *
  * @category   Oggetto
  * @package    Oggetto_Faq
@@ -83,6 +83,8 @@ class Oggetto_Faq_Test_Block_Adminhtml_Faq_Edit extends EcomDev_PHPUnit_Test_Cas
             ->method('getId')
             ->willReturn(123);
 
+
+        Mage::unregister('current_questions');
         Mage::register('current_questions', $questions);
 
         $helper = $this->getHelperMock('oggetto_faq/data', ['__']);
@@ -95,6 +97,7 @@ class Oggetto_Faq_Test_Block_Adminhtml_Faq_Edit extends EcomDev_PHPUnit_Test_Cas
         $this->replaceByMock('helper', 'oggetto_faq', $helper);
 
         $this->assertEquals($testValue, $block->getHeaderText());
+
         Mage::unregister('current_questions');
     }
 }

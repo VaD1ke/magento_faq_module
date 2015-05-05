@@ -1,0 +1,30 @@
+-
+  id: name
+  type: label
+  params:
+    label: User name
+    name: name
+-
+  id: email
+  type: label
+  params:
+    label: User email
+    name: email
+-
+  id: question_text
+  type: textarea
+  params:
+    label: Question text
+    name: question_text
+-
+  id: answer_text
+  type: textarea
+  params:
+    label: Answer text
+    name: answer_text
+-
+  id: created_at
+  type: label
+  params:
+    label: Created
+    name: created_at
