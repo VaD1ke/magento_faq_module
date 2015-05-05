@@ -39,6 +39,8 @@ class Oggetto_Faq_Test_Block_Adminhtml_Faq_Edit_Form extends EcomDev_PHPUnit_Tes
      */
     public function testPreparesFormFieldsForEditingQuestion()
     {
+        $testUrl = $this->expected()->getFormData('action');
+
         $this->replaceByMock('singleton', 'core/session', $this->getModelMock('core/session', ['start']));
 
         $questions = $this->getModelMock('oggetto_faq/questions', ['getId']);
@@ -51,34 +53,46 @@ class Oggetto_Faq_Test_Block_Adminhtml_Faq_Edit_Form extends EcomDev_PHPUnit_Tes
         $blockMock->expects($this->any())
             ->method('getUrl')
             ->with($this->equalTo('*/*/save'), $this->anything())
-            ->willReturn('admin/question/save/id/777');
+            ->willReturn($testUrl);
 
         $blockMock->toHtml();
 
         $form = $blockMock->getForm();
 
+        $elements = [];
 
-        for ($i = 0; $i < 5; $i++) {
-            $this->assertEquals(
-                $this->expected($i)->getType(),
-                $form->getElement($this->expected($i)->getId())->getType()
-            );
-            $this->assertEquals(
-                $this->expected($i)->getParams()['label'],
-                $form->getElement($this->expected($i)->getId())->getLabel()
-            );
-            $this->assertEquals(
-                $this->expected($i)->getParams()['name'],
-                $form->getElement($this->expected($i)->getId())->getName()
-            );
+        foreach ($form->getElements() as $element) {
+            if ($element->getType() == 'fieldset') {
+                foreach ($element->getElements() as $field) {
+                    $elements[] =$field->getId();
+                }
+            }
         }
 
-        $this->assertEquals('edit_form', $form->getId());
-        $this->assertEquals('admin/question/save/id/777', $form->getAction());
-        $this->assertEquals('post', $form->getMethod());
-        $this->assertEquals('multipart/form-data', $form->getEnctype());
-        $this->assertTrue($form->getUseContainer());
+        $this->assertEquals($this->expected()->getId(), $elements);
+
+        $expectedFormData = $this->expected()->getFormData();
+
+        $this->_assertFormOnExpectedIdActionMethodEnctypeAndUseContainerStatus($expectedFormData, $form);
 
         Mage::unregister('current_questions');
+    }
+
+    /**
+     * Assert form on expected id, action, method, enctype and using container status
+     *
+     * @param array            $expected expected values
+     * @param Varien_Data_Form $form     form
+     *
+     * @return void
+     */
+    private function _assertFormOnExpectedIdActionMethodEnctypeAndUseContainerStatus($expected, $form)
+    {
+        $this->assertEquals($expected['id'], $form->getId());
+        $this->assertEquals($expected['action'], $form->getAction());
+        $this->assertEquals($expected['method'], $form->getMethod());
+        $this->assertEquals($expected['enctype'], $form->getEnctype());
+
+        $this->assertTrue($form->getUseContainer());
     }
 }
