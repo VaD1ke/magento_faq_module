@@ -51,17 +51,6 @@ class Oggetto_Faq_Test_Block_Questions extends Oggetto_Faq_Test_Case_Block_Page
     }
 
     /**
-     * Check class alias
-     *
-     * @return void
-     */
-    public function testChecksClassAlias()
-    {
-        $this->assertInstanceOf('Oggetto_Faq_Block_Questions',
-            $this->getBlockMock('oggetto_faq/questions'));
-    }
-
-    /**
      * Initialize itself in constructor
      *
      * @return void
@@ -83,8 +72,21 @@ class Oggetto_Faq_Test_Block_Questions extends Oggetto_Faq_Test_Case_Block_Page
         $block = new Oggetto_Faq_Block_Questions;
 
         $this->assertEquals($questions, $block->getCollection());
-
     }
+
+    /**
+     * Check class alias
+     *
+     * @return void
+     */
+    public function testChecksClassAlias()
+    {
+        $this->assertInstanceOf(
+            'Oggetto_Faq_Block_Questions',
+            $this->getBlockMock('oggetto_faq/questions')
+        );
+    }
+
 
     /**
      * Tests ask page is disabled
@@ -93,7 +95,7 @@ class Oggetto_Faq_Test_Block_Questions extends Oggetto_Faq_Test_Case_Block_Page
      */
     public function testChecksAskOptionIsDisabled()
     {
-        $value = 4;
+        $value = 777;
 
         $helperDataMock = $this->getHelperMock('oggetto_faq/data', ['isDisabledAddingOptionData']);
 
@@ -134,7 +136,7 @@ class Oggetto_Faq_Test_Block_Questions extends Oggetto_Faq_Test_Case_Block_Page
         $mockBlock->expects($this->once())
             ->method('getChildHtml')
             ->with($this->equalTo('pager'))
-            ->will($this->returnValue($pager));
+            ->willReturn($pager);
 
         $this->replaceByMock('block', 'oggetto_faq/questions', $mockBlock);
 

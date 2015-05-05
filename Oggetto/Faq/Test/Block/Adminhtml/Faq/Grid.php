@@ -41,8 +41,7 @@ class Oggetto_Faq_Test_Block_Adminhtml_Faq_Grid extends EcomDev_PHPUnit_Test_Cas
     {
         $this->replaceByMock('singleton', 'core/session', $this->getModelMock('core/session', ['start']));
 
-        $questions = $this->getResourceModelMock('oggetto_faq/questions_collection',
-            ['newOnTop']);
+        $questions = $this->getResourceModelMock('oggetto_faq/questions_collection', ['newOnTop']);
 
         $questions->expects($this->once())
             ->method('newOnTop');
@@ -65,7 +64,8 @@ class Oggetto_Faq_Test_Block_Adminhtml_Faq_Grid extends EcomDev_PHPUnit_Test_Cas
         ]);
 
         $blockMock->expects($this->once())
-            ->method('setDefaultFilter');
+            ->method('setDefaultFilter')
+            ->with(['is_answered' => 0]);
 
         $blockMock->toHtml();
     }
@@ -101,20 +101,20 @@ class Oggetto_Faq_Test_Block_Adminhtml_Faq_Grid extends EcomDev_PHPUnit_Test_Cas
      *
      * @return void
      */
-    public function testPreparesMassactionForDelete()
+    public function testPreparesMassactionForDeletingQuestions()
     {
         $block = $this->getBlockMock('oggetto_faq/adminhtml_faq_grid',
             [
                 'addColumn',
-                '_prepareCollection',
-                '_prepareColumns',
-                'setMassactionIdField',
+                'getLayout',
                 'getMassactionBlock',
                 'getMassactionBlockName',
-                'getLayout',
-                'setChild',
                 'getUrl',
-                '_prepareMassactionColumn'
+                '_prepareCollection',
+                '_prepareColumns',
+                '_prepareMassactionColumn',
+                'setMassactionIdField',
+                'setChild',
             ]);
 
         $massBlock = $this->getBlockMock('adminhtml/widget_grid_massaction',
@@ -167,7 +167,7 @@ class Oggetto_Faq_Test_Block_Adminhtml_Faq_Grid extends EcomDev_PHPUnit_Test_Cas
         $block->expects($this->any())
             ->method('getUrl')
             ->with($this->anything())
-            ->will($this->returnArgument(0));
+            ->willReturnArgument(0);
 
         $block->expects($this->once())
             ->method('setMassactionIdField')
@@ -185,12 +185,13 @@ class Oggetto_Faq_Test_Block_Adminhtml_Faq_Grid extends EcomDev_PHPUnit_Test_Cas
     public function testChecksUrlForRowInGrid()
     {
         $testValue = 'test';
+        $testId = 777;
 
         $questions = $this->getModelMock('oggetto_faq/questions', ['getId']);
 
         $questions->expects($this->once())
             ->method('getId')
-            ->willReturn(777);
+            ->willReturn($testId);
 
         $block = $this->getBlockMock('oggetto_faq/adminhtml_faq_grid', ['getUrl']);
 
@@ -198,7 +199,7 @@ class Oggetto_Faq_Test_Block_Adminhtml_Faq_Grid extends EcomDev_PHPUnit_Test_Cas
             ->method('getUrl')
             ->with(
                 $this->equalTo('*/*/edit'),
-                $this->equalTo(['id' => 777])
+                $this->equalTo(['id' => $testId])
             )
             ->willReturn($testValue);
 

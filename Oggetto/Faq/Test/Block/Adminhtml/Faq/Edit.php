@@ -70,6 +70,7 @@ class Oggetto_Faq_Test_Block_Adminhtml_Faq_Edit extends EcomDev_PHPUnit_Test_Cas
     public function testGetsHeaderText()
     {
         $testValue = 'test';
+        $testId = 123;
 
         $block = $this->getMockBuilder('Oggetto_Faq_Block_Adminhtml_Faq_Edit')
             ->disableOriginalConstructor()
@@ -81,7 +82,7 @@ class Oggetto_Faq_Test_Block_Adminhtml_Faq_Edit extends EcomDev_PHPUnit_Test_Cas
 
         $questions->expects($this->once())
             ->method('getId')
-            ->willReturn(123);
+            ->willReturn($testId);
 
 
         Mage::unregister('current_questions');
@@ -91,8 +92,8 @@ class Oggetto_Faq_Test_Block_Adminhtml_Faq_Edit extends EcomDev_PHPUnit_Test_Cas
 
         $helper->expects($this->once())
             ->method('__')
-            ->with($this->equalTo("Edit Question item %s"), $this->equalTo(123))
-            ->will($this->returnValue($testValue));
+            ->with($this->equalTo("Edit Question item %s"), $this->equalTo($testId))
+            ->willReturn($testValue);
 
         $this->replaceByMock('helper', 'oggetto_faq', $helper);
 

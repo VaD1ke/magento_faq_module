@@ -39,7 +39,6 @@ class Oggetto_Faq_Test_Block_Adminhtml_Faq extends EcomDev_PHPUnit_Test_Case
      */
     public function testInitsItselfInConstructor()
     {
-
         $this->replaceByMock('singleton', 'core/session', $this->getModelMock('core/session'));
 
         $helper = $this->getHelperMock('oggetto_faq/data', ['__']);
@@ -72,7 +71,7 @@ class Oggetto_Faq_Test_Block_Adminhtml_Faq extends EcomDev_PHPUnit_Test_Case
                 $this->equalTo('oggetto_faq/adminhtml_faq_grid'),
                 $this->equalTo('adminhtml_faq.grid')
             )
-            ->willReturn(new Mage_Core_Block_Template());
+            ->willReturn(new Mage_Core_Block_Template);
 
         $block->setLayout($layout);
     }

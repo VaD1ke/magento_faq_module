@@ -59,12 +59,18 @@ class Oggetto_Faq_Test_Block_Adminhtml_Faq_Edit_Form extends EcomDev_PHPUnit_Tes
 
 
         for ($i = 0; $i < 5; $i++) {
-            $this->assertEquals( $this->expected($i)->getType(),
-                    $form->getElement($this->expected($i)->getId())->getType());
-            $this->assertEquals( $this->expected($i)->getParams()['label'],
-                    $form->getElement($this->expected($i)->getId())->getLabel());
-            $this->assertEquals( $this->expected($i)->getParams()['name'],
-                    $form->getElement($this->expected($i)->getId())->getName());
+            $this->assertEquals(
+                $this->expected($i)->getType(),
+                $form->getElement($this->expected($i)->getId())->getType()
+            );
+            $this->assertEquals(
+                $this->expected($i)->getParams()['label'],
+                $form->getElement($this->expected($i)->getId())->getLabel()
+            );
+            $this->assertEquals(
+                $this->expected($i)->getParams()['name'],
+                $form->getElement($this->expected($i)->getId())->getName()
+            );
         }
 
         $this->assertEquals('edit_form', $form->getId());
