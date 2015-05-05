@@ -39,7 +39,7 @@ class Oggetto_Faq_Block_Adminhtml_Faq_Grid extends Mage_Adminhtml_Block_Widget_G
      */
     protected function _prepareCollection()
     {
-        $this->setDefaultFilter(array('is_answered' => 0));
+        $this->setDefaultFilter(['is_answered' => 0]);
 
         $collection = Mage::getModel('oggetto_faq/questions')->getCollection();
         $collection->newOnTop();
