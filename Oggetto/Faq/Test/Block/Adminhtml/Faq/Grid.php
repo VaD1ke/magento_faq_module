@@ -32,6 +32,43 @@
  */
 class Oggetto_Faq_Test_Block_Adminhtml_Faq_Grid extends EcomDev_PHPUnit_Test_Case
 {
+    /**
+     * Set question collection and add filter by answered status
+     *
+     * @return void
+     */
+    public function testSetsQuestionsCollectionAndFilterByAnsweredStatus()
+    {
+        $this->replaceByMock('singleton', 'core/session', $this->getModelMock('core/session', ['start']));
+
+        $questions = $this->getResourceModelMock('oggetto_faq/questions_collection',
+            ['newOnTop']);
+
+        $questions->expects($this->once())
+            ->method('newOnTop');
+
+
+        $modelMock = $this->getModelMock('oggetto_faq/questions', ['getCollection']);
+
+        $modelMock->expects($this->once())
+            ->method('getCollection')
+            ->willReturn($questions);
+
+        $this->replaceByMock('model', 'oggetto_faq/questions', $modelMock);
+
+
+        $blockMock = $this->getBlockMock('oggetto_faq/adminhtml_faq_grid', [
+            '_prepareColumns',
+            '_prepareMassaction',
+            '_prepareMassactionBlock',
+            'setDefaultFilter'
+        ]);
+
+        $blockMock->expects($this->once())
+            ->method('setDefaultFilter');
+
+        $blockMock->toHtml();
+    }
 
     /**
      * Prepare columns for grid
@@ -153,7 +190,7 @@ class Oggetto_Faq_Test_Block_Adminhtml_Faq_Grid extends EcomDev_PHPUnit_Test_Cas
 
         $questions->expects($this->once())
             ->method('getId')
-            ->will($this->returnValue(777));
+            ->willReturn(777);
 
         $block = $this->getBlockMock('oggetto_faq/adminhtml_faq_grid', ['getUrl']);
 
