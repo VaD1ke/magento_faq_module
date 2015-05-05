@@ -51,6 +51,16 @@ class Oggetto_Faq_Test_Model_Questions extends EcomDev_PHPUnit_Test_Case
     }
 
     /**
+     * Check resource model name
+     *
+     * @return void
+     */
+    public function testChecksResourceModelName()
+    {
+        $this->assertEquals('oggetto_faq/questions', $this->_model->getResourceName());
+    }
+
+    /**
      * Test validation of adding questions if name, email, question text is not empty
      *
      * @param array $dataStatus   expected statuses of validation
