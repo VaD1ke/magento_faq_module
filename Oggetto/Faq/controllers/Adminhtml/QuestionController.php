@@ -21,7 +21,6 @@
  * @copyright  Copyright (C) 2015 Oggetto Web (http://oggettoweb.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
 /**
  * FAQ Controller for admin
  *
@@ -53,7 +52,6 @@ class Oggetto_Faq_Adminhtml_QuestionController extends Mage_Adminhtml_Controller
     {
         $id = (int) $this->getRequest()->getParam('id');
         Mage::register('current_questions', Mage::getModel('oggetto_faq/questions')->load($id));
-
         $this->loadLayout()->_setActiveMenu('oggetto_faq');
         $this->_addContent($this->getLayout()->createBlock('oggetto_faq/adminhtml_faq_edit'));
         $this->renderLayout();
@@ -67,9 +65,7 @@ class Oggetto_Faq_Adminhtml_QuestionController extends Mage_Adminhtml_Controller
     public function saveAction()
     {
         if ($data = $this->getRequest()->getPost()) {
-
             try {
-
                 $model = Mage::getModel('oggetto_faq/questions');
                 $model->setData($data)->setId($this->getRequest()->getParam('id'));
                 if ($data['answer_text']) {
@@ -77,33 +73,24 @@ class Oggetto_Faq_Adminhtml_QuestionController extends Mage_Adminhtml_Controller
                 } else {
                     $model->setNotAnswered();
                 }
-
                 $model->save();
-
                 Mage::getSingleton('adminhtml/session')->addSuccess(
                     $this->__('Question was saved successfully')
                 );
                 Mage::getSingleton('adminhtml/session')->setFormData(false);
-
             } catch (Exception $e) {
-
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
                 Mage::getSingleton('adminhtml/session')->setFormData($data);
                 $this->_redirect('*/*/edit', array(
                     'id' => $this->getRequest()->getParam('id')
                 ));
-
             }
-
             $this->_redirect('*/*/');
             return;
-
         }
-
         Mage::getSingleton('adminhtml/session')->addError(
             $this->__('Unable to find item to save')
         );
-
         $this->_redirect('*/*/');
     }
 
@@ -116,17 +103,13 @@ class Oggetto_Faq_Adminhtml_QuestionController extends Mage_Adminhtml_Controller
     {
         if ($id = $this->getRequest()->getParam('id')) {
             try {
-
                 Mage::getModel('oggetto_faq/questions')->setId($id)->delete();
                 Mage::getSingleton('adminhtml/session')->addSuccess(
                     $this->__('Question was deleted successfully')
                 );
-
             } catch (Exception $e) {
-
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('id' => $id));
-
             }
         }
         $this->_redirect('*/*/');
@@ -140,7 +123,6 @@ class Oggetto_Faq_Adminhtml_QuestionController extends Mage_Adminhtml_Controller
     public function massDeleteAction()
     {
         $questions = $this->getRequest()->getParam('questions');
-
         if (is_array($questions) && sizeof($questions) > 0) {
             try {
                 foreach ($questions as $id) {
@@ -154,5 +136,4 @@ class Oggetto_Faq_Adminhtml_QuestionController extends Mage_Adminhtml_Controller
         }
         $this->_redirect('*/*/');
     }
-
 }

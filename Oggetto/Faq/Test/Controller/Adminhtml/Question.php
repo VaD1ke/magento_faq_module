@@ -184,7 +184,7 @@ class Oggetto_Faq_Test_Controller_Adminhtml_Question extends Oggetto_Phpunit_Tes
                 ->method('setId')
                 ->with($this->equalTo($id))
                 ->willReturnSelf();
-            $model->expects($this->at($index * 2 + 1))
+            $model->expects($this->at($index * 2))
                 ->method('delete');
         }
 
