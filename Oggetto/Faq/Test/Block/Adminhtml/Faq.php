@@ -41,10 +41,14 @@ class Oggetto_Faq_Test_Block_Adminhtml_Faq extends EcomDev_PHPUnit_Test_Case
     {
         $this->replaceByMock('singleton', 'core/session', $this->getModelMock('core/session', ['start']));
 
+        $expectedBlockGroup = 'oggetto_faq';
+        $expectedController = 'adminhtml_faq';
+
         $block = new Oggetto_Faq_Block_Adminhtml_Faq;
         $layout = new Mage_Core_Model_Layout;
         $block->setLayout($layout);
 
-        $this->assertEquals('oggetto_faq/adminhtml_faq_grid', $block->getChildData('grid')['type']);
+        $this->assertEquals($expectedBlockGroup . '/' . $expectedController . '_grid',
+                $block->getChildData('grid')['type']);
     }
 }

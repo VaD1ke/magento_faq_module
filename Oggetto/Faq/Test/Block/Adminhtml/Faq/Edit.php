@@ -101,6 +101,11 @@ class Oggetto_Faq_Test_Block_Adminhtml_Faq_Edit extends EcomDev_PHPUnit_Test_Cas
         $this->assertEquals($questions, $block->getCurrentQuestionsModel());
     }
 
+    /**
+     * Unregister current questions model
+     *
+     * @return void
+     */
     public static function tearDownAfterClass()
     {
         Mage::unregister('current_questions');

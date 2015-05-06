@@ -64,7 +64,7 @@ class Oggetto_Faq_Test_Block_Adminhtml_Faq_Edit_Form extends EcomDev_PHPUnit_Tes
         foreach ($form->getElements() as $element) {
             if ($element->getType() == 'fieldset') {
                 foreach ($element->getElements() as $field) {
-                    $elements[] =$field->getId();
+                    $elements[] = $field->getId();
                 }
             }
         }
@@ -74,8 +74,24 @@ class Oggetto_Faq_Test_Block_Adminhtml_Faq_Edit_Form extends EcomDev_PHPUnit_Tes
         $expectedFormData = $this->expected()->getFormData();
 
         $this->_assertFormOnExpectedIdActionMethodEnctypeAndUseContainerStatus($expectedFormData, $form);
+    }
 
+    /**
+     * Return current questions model from mage registry
+     *
+     * @return void
+     */
+    public function testReturnsCurrentQuestionsModel()
+    {
+        $block = $this->getMockBuilder('Oggetto_Faq_Block_Adminhtml_Faq_Edit_Form')
+            ->disableOriginalConstructor()
+            ->setMethods(null)
+            ->getMock();
+
+        $questions = Mage::getModel('oggetto_faq/questions');
         Mage::unregister('current_questions');
+        Mage::register('current_questions', $questions);
+        $this->assertEquals($questions, $block->getCurrentQuestionsModel());
     }
 
     /**
@@ -94,5 +110,15 @@ class Oggetto_Faq_Test_Block_Adminhtml_Faq_Edit_Form extends EcomDev_PHPUnit_Tes
         $this->assertEquals($expected['enctype'], $form->getEnctype());
 
         $this->assertTrue($form->getUseContainer());
+    }
+
+    /**
+     * Unregister current questions model
+     *
+     * @return void
+     */
+    public static function tearDownAfterClass()
+    {
+        Mage::unregister('current_questions');
     }
 }
