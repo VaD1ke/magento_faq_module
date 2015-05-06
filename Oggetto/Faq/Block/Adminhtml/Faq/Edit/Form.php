@@ -77,6 +77,14 @@ class Oggetto_Faq_Block_Adminhtml_Faq_Edit_Form extends Mage_Adminhtml_Block_Wid
             'label' => $helper->__('Created'),
             'name'  => 'created_at',
         ]);
+        $fieldset->addField('with_feedback', 'label', [
+            'label' => $helper->__('With feedback'),
+            'name'  => 'with_feedback',
+        ]);
+        $fieldset->addField('was_notified', 'label', [
+            'label' => $helper->__('Was notified to user'),
+            'name'  => 'was_notified',
+        ]);
 
         $form->setUseContainer(true);
 

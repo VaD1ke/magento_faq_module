@@ -4,6 +4,8 @@ id:
   - question_text
   - answer_text
   - created_at
+  - with_feedback
+  - was_notified
 form_data:
   id: edit_form
   action: admin/question/save/id/777
