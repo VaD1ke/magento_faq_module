@@ -64,6 +64,16 @@ class Oggetto_Faq_Model_Questions extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Set question to was notified flag
+     *
+     * @return void
+     */
+    public function setNotified()
+    {
+        $this->setWasNotified(1);
+    }
+
+    /**
      * Validate users name, email and question is empty
      *
      * @return array|bool

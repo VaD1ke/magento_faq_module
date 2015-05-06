@@ -89,7 +89,7 @@ class Oggetto_Faq_Test_Model_Questions extends EcomDev_PHPUnit_Test_Case
      *
      * @return void
      *
-     * @dataProvider dataProvider
+     * @dataProvider dataProvider testQuestionData
      */
     public function testSetsStatusAnswered($data)
     {
@@ -102,5 +102,22 @@ class Oggetto_Faq_Test_Model_Questions extends EcomDev_PHPUnit_Test_Case
 
         $this->_model->setNotAnswered();
         $this->assertEquals(0, $this->_model->getIsAnswered());
+    }
+
+    /**
+     * Test setting status answered / not answered
+     *
+     * @param array $data data
+     *
+     * @return void
+     *
+     * @dataProvider dataProvider
+     */
+    public function testSetsStatusNotified($data)
+    {
+        $this->_model->setData($data);
+
+        $this->_model->setNotified();
+        $this->assertEquals(1, $this->_model->getWasNotified());
     }
 }
