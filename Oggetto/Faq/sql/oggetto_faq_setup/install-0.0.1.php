@@ -54,7 +54,7 @@ try {
         ), 'Created At')
         ->addColumn('is_answered', Varien_Db_Ddl_Table::TYPE_BOOLEAN, null, array(
             'nullable' => false,
-            'default'  => 0,
+            'default'  => '0',
         ), 'Is Answered')
         ->setComment('Questions Table');
 
