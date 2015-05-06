@@ -175,16 +175,18 @@ class Oggetto_Faq_Test_Controller_Adminhtml_Question extends Oggetto_Phpunit_Tes
      */
     public function testMassDeleteAction($data)
     {
+        $methodsMock = ['delete', 'setId'];
+
         $this->getRequest()->setParam('questions', $data);
 
-        $model = $this->getModelMock('oggetto_faq/questions', ['delete', 'setId']);
+        $model = $this->getModelMock('oggetto_faq/questions', $methodsMock);
 
         foreach ($data as $index => $id) {
-            $model->expects($this->at($index * 2))
+            $model->expects($this->at($index * count($methodsMock)))
                 ->method('setId')
                 ->with($this->equalTo($id))
                 ->willReturnSelf();
-            $model->expects($this->at($index * 2))
+            $model->expects($this->at($index * count($methodsMock)))
                 ->method('delete');
         }
 
