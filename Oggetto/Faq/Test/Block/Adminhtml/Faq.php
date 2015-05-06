@@ -33,46 +33,18 @@
 class Oggetto_Faq_Test_Block_Adminhtml_Faq extends EcomDev_PHPUnit_Test_Case
 {
     /**
-     * Initialize itself in constructor method
+     * Check child block group and controller
      *
      * @return void
      */
-    public function testInitsItselfInConstructor()
+    public function testChecksChildBlockGroupAndController()
     {
-        $this->replaceByMock('singleton', 'core/session', $this->getModelMock('core/session'));
+        $this->replaceByMock('singleton', 'core/session', $this->getModelMock('core/session', ['start']));
 
-        $helper = $this->getHelperMock('oggetto_faq/data', ['__']);
-
-        $helper->expects($this->once())
-            ->method('__')
-            ->with($this->equalTo('FAQ Management'))
-            ->willReturn('FAQ Management');
-
-        $this->replaceByMock('helper', 'oggetto_faq', $helper);
-
-        $block = $this->getMockBuilder('Oggetto_Faq_Block_Adminhtml_Faq')
-            ->disableOriginalConstructor()
-            ->setMethods(null)
-            ->getMock();
-
-        $reflected = new ReflectionClass('Oggetto_Faq_Block_Adminhtml_Faq');
-
-        $constructor = $reflected->getConstructor();
-
-        $constructor->invoke($block);
-
-        $this->assertEquals('FAQ Management', $block->getHeaderText());
-
-        $layout = $this->getModelMock('core/layout', ['createBlock']);
-
-        $layout->expects($this->at(0))
-            ->method('createBlock')
-            ->with(
-                $this->equalTo('oggetto_faq/adminhtml_faq_grid'),
-                $this->equalTo('adminhtml_faq.grid')
-            )
-            ->willReturn(new Mage_Core_Block_Template);
-
+        $block = new Oggetto_Faq_Block_Adminhtml_Faq;
+        $layout = new Mage_Core_Model_Layout;
         $block->setLayout($layout);
+
+        $this->assertEquals('oggetto_faq/adminhtml_faq_grid', $block->getChildData('grid')['type']);
     }
 }
