@@ -44,4 +44,17 @@ class Oggetto_Faq_Test_Helper_Data extends EcomDev_PHPUnit_Test_Case
         $isDisabled = Mage::helper('oggetto_faq')->isDisabledAddingOptionData();
         $this->assertEquals(1, $isDisabled);
     }
+
+    /**
+     * Tests return e-mail for support from store config
+     *
+     * @return void
+     *
+     * @loadFixture
+     */
+    public function testReturnsSupportEmailFromStoreConfig()
+    {
+        $supportEmail = Mage::helper('oggetto_faq')->getSupportEmail();
+        $this->assertEquals('support@example.com', $supportEmail);
+    }
 }
