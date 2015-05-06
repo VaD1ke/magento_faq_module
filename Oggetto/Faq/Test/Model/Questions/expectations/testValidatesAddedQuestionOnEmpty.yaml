@@ -1,16 +1,19 @@
-wrong_name:
+empty_name:
   result:
     - Name is required
+empty_email:
+  result:
+    - Email is required
+empty_question:
+  result:
+    - Question is required
+empty_all:
+  result:
+    - Name is required
+    - Email is required
+    - Question is required
 wrong_email:
   result:
-    - Email is required
-wrong_question:
-  result:
-    - Question is required
-wrong_all:
-  result:
-    - Name is required
-    - Email is required
-    - Question is required
+    - Email is incorrect
 ok:
   result: true

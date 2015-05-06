@@ -78,6 +78,8 @@ class Oggetto_Faq_Model_Questions extends Mage_Core_Model_Abstract
         }
         if (!Zend_Validate::is($this->getEmail(), 'NotEmpty')) {
             $errors[] = Mage::helper('oggetto_faq')->__('Email is required');
+        } elseif (!Zend_Validate::is($this->getEmail(), 'EmailAddress')) {
+            $errors[] = Mage::helper('oggetto_faq')->__('Email is incorrect');
         }
         if (!Zend_Validate::is($this->getQuestionText(), 'NotEmpty')) {
             $errors[] = Mage::helper('oggetto_faq')->__('Question is required');
