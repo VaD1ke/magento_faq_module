@@ -66,9 +66,20 @@ class Oggetto_Faq_Adminhtml_QuestionController extends Mage_Adminhtml_Controller
     {
         if ($data = $this->getRequest()->getPost()) {
             try {
+                $id = $this->getRequest()->getParam('id');
                 $model = Mage::getModel('oggetto_faq/questions');
-                $model->setData($data)->setId($this->getRequest()->getParam('id'));
+
+                $withFeedback = $model->load($id)->getWithFeedback();
+                $wasNotified = $model->load($id)->getWasNotified();
+
+                //var_dump($wasNotified);
+                //var_dump($withFeedback);die;
+                $model->setData($data)->setId($id);
+
                 if ($data['answer_text']) {
+                    if ($withFeedback && !$wasNotified) {
+                        $model->setNotified();
+                    }
                     $model->setAnswered();
                 } else {
                     $model->setNotAnswered();

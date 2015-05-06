@@ -141,6 +141,43 @@ class Oggetto_Faq_Test_Controller_Adminhtml_Question extends Oggetto_Phpunit_Tes
     }
 
     /**
+     * Tests save question action with not notified status
+     *
+     * @param array $post post data
+     *
+     * @return void
+     *
+     * @dataProvider dataProvider
+     */
+    public function testSaveActionSavesQuestionCheckNotNotifiedStatus($post)
+    {
+        $this->getRequest()->setMethod('POST');
+        $this->getRequest()->setPost($post);
+
+        $model = $this->getModelMock('oggetto_faq/questions', ['save', 'setAnswered', 'setNotAnswered', 'setNotified']);
+
+        $model->setWithFeedback(1);
+        $model->setWasNotified(0);
+
+        $model->expects($this->once())
+            ->method('save');
+
+        $model->expects($this->once())
+            ->method('setAnswered');
+
+        $model->expects($this->once())
+            ->method('setNotified');
+
+        $model->expects($this->never())
+            ->method('setNotAnswered');
+
+        $this->replaceByMock('model', 'oggetto_faq/questions', $model);
+
+        $this->dispatch('adminhtml/question/save');
+
+        $this->_assertRequestsDispatchForwardAndController('save');
+    }
+    /**
      * Tests delete question action
      *
      * @return void
