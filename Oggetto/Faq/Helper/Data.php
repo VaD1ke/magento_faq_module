@@ -42,9 +42,23 @@ class Oggetto_Faq_Helper_Data extends Mage_Core_Helper_Abstract
         return Mage::getStoreConfig('oggetto_faq_options/disable_options/disable_adding');
     }
 
+    /**
+     * Return support email from store config
+     *
+     * @return mixed
+     */
     public function getSupportEmail()
     {
         return Mage::getStoreConfig('trans_email/ident_support/email');
     }
 
+    /**
+     * Return support name from store config
+     *
+     * @return mixed
+     */
+    public function getSupportName()
+    {
+        return Mage::getStoreConfig('trans_email/ident_support/name');
+    }
 }

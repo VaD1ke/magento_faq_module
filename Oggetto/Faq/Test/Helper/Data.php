@@ -57,4 +57,17 @@ class Oggetto_Faq_Test_Helper_Data extends EcomDev_PHPUnit_Test_Case
         $supportEmail = Mage::helper('oggetto_faq')->getSupportEmail();
         $this->assertEquals('support@example.com', $supportEmail);
     }
+
+    /**
+     * Tests return name for support from store config
+     *
+     * @return void
+     *
+     * @loadFixture
+     */
+    public function testReturnsSupportNameFromStoreConfig()
+    {
+        $supportName = Mage::helper('oggetto_faq')->getSupportName();
+        $this->assertEquals('Support', $supportName);
+    }
 }
