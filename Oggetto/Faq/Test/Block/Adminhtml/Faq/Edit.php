@@ -33,33 +33,24 @@
 class Oggetto_Faq_Test_Block_Adminhtml_Faq_Edit extends EcomDev_PHPUnit_Test_Case
 {
     /**
-     * Initialize itself in constructor method
+     * Check form child block group and controller
      *
      * @return void
      */
-    public function testInitsItselfInConstructor()
+    public function testChecksChildBlockGroupAndController()
     {
         $this->replaceByMock('singleton', 'core/session', $this->getModelMock('core/session', ['start']));
 
-        $block = $this->getMockBuilder('Oggetto_Faq_Block_Adminhtml_Faq_Edit')
-            ->disableOriginalConstructor()
-            ->setMethods(null)
-            ->getMock();
+        $expectedBlockGroup = 'oggetto_faq';
+        $expectedController = 'adminhtml_faq';
+        $expectedMode = 'edit';
 
-        $reflected = new ReflectionClass('Oggetto_Faq_Block_Adminhtml_Faq_Edit');
-
-        $constructor = $reflected->getConstructor();
-
-        $constructor->invoke($block);
-
-        $layout = $this->getModelMock('core/layout', ['createBlock']);
-
-        $layout->expects($this->at(0))
-            ->method('createBlock')
-            ->with($this->equalTo('oggetto_faq/adminhtml_faq_edit_form'))
-            ->willReturn(new Mage_Core_Block_Template);
-
+        $block = new Oggetto_Faq_Block_Adminhtml_Faq_Edit;
+        $layout = new Mage_Core_Model_Layout;
         $block->setLayout($layout);
+
+        $this->assertEquals($expectedBlockGroup . '/' . $expectedController . '_' . $expectedMode . '_form',
+                $block->getChildData('form')['type']);
     }
 
     /**
@@ -69,7 +60,6 @@ class Oggetto_Faq_Test_Block_Adminhtml_Faq_Edit extends EcomDev_PHPUnit_Test_Cas
      */
     public function testGetsHeaderText()
     {
-        $testValue = 'test';
         $testId = 123;
 
         $block = $this->getMockBuilder('Oggetto_Faq_Block_Adminhtml_Faq_Edit')
@@ -88,17 +78,31 @@ class Oggetto_Faq_Test_Block_Adminhtml_Faq_Edit extends EcomDev_PHPUnit_Test_Cas
         Mage::unregister('current_questions');
         Mage::register('current_questions', $questions);
 
-        $helper = $this->getHelperMock('oggetto_faq/data', ['__']);
+        $this->assertEquals("Edit Question item $testId", $block->getHeaderText());
+    }
 
-        $helper->expects($this->once())
-            ->method('__')
-            ->with($this->equalTo("Edit Question item %s"), $this->equalTo($testId))
-            ->willReturn($testValue);
+    /**
+     * Return current questions model from mage registry
+     *
+     * @return void
+     */
+    public function testReturnsCurrentQuestionsModel()
+    {
+        $block = $this->getMockBuilder('Oggetto_Faq_Block_Adminhtml_Faq_Edit')
+            ->disableOriginalConstructor()
+            ->setMethods(null)
+            ->getMock();
 
-        $this->replaceByMock('helper', 'oggetto_faq', $helper);
+        $questions = Mage::getModel('oggetto_faq/questions');
 
-        $this->assertEquals($testValue, $block->getHeaderText());
+        Mage::unregister('current_questions');
+        Mage::register('current_questions', $questions);
 
+        $this->assertEquals($questions, $block->getCurrentQuestionsModel());
+    }
+
+    public static function tearDownAfterClass()
+    {
         Mage::unregister('current_questions');
     }
 }
