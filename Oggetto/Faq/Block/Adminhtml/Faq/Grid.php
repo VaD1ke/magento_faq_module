@@ -59,40 +59,40 @@ class Oggetto_Faq_Block_Adminhtml_Faq_Grid extends Mage_Adminhtml_Block_Widget_G
     {
         $helper = Mage::helper('oggetto_faq');
 
-        $this->addColumn('question_id', array(
+        $this->addColumn('question_id', [
             'header' => $helper->__('Question ID'),
             'index'  => 'question_id',
-            ))
-            ->addColumn('name', array(
+            ])
+            ->addColumn('name', [
             'header' => $helper->__('User Name'),
             'index'  => 'name',
             'type'   => 'varchar',
-            ))
-            ->addColumn('email', array(
+            ])
+            ->addColumn('email', [
             'header' => $helper->__('User Email'),
             'index'  => 'email',
             'type'   => 'varchar',
-            ))
-            ->addColumn('question_text', array(
+            ])
+            ->addColumn('question_text', [
             'header' => $helper->__('Question'),
             'index'  => 'question_text',
             'type'   => 'varchar',
-            ))
-            ->addColumn('answer_text', array(
+            ])
+            ->addColumn('answer_text', [
             'header' => $helper->__('Answer'),
             'index'  => 'answer_text',
             'type'   => 'varchar',
-            ))
-            ->addColumn('created_at', array(
+            ])
+            ->addColumn('created_at', [
             'header' => $helper->__('Created'),
             'index'  => 'created_at',
             'type'   => 'timestamp',
-            ))
-            ->addColumn('is_answered', array(
+            ])
+            ->addColumn('is_answered', [
             'header' => $helper->__('Is answered'),
             'index'  => 'is_answered',
             'type'   => 'boolean',
-            ));
+            ]);
 
         return parent::_prepareColumns();
     }

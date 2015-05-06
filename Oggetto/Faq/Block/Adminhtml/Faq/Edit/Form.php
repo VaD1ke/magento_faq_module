@@ -41,7 +41,7 @@ class Oggetto_Faq_Block_Adminhtml_Faq_Edit_Form extends Mage_Adminhtml_Block_Wid
     protected function _prepareForm()
     {
         $helper = Mage::helper('oggetto_faq');
-        $model = Mage::registry('current_questions');
+        $model = $this->getCurrentQuestionsModel();
 
         $form = new Varien_Data_Form([
             'id'      => 'edit_form',
@@ -83,6 +83,16 @@ class Oggetto_Faq_Block_Adminhtml_Faq_Edit_Form extends Mage_Adminhtml_Block_Wid
         $form->setValues($model->getData());
 
         return parent::_prepareForm();
+    }
+
+    /**
+     * Return current questions model from mage registry
+     *
+     * @return Oggetto_Faq_Model_Questions
+     */
+    public function getCurrentQuestionsModel()
+    {
+        return Mage::registry('current_questions');
     }
 
 }

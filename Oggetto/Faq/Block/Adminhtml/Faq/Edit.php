@@ -51,9 +51,19 @@ class Oggetto_Faq_Block_Adminhtml_Faq_Edit extends Mage_Adminhtml_Block_Widget_F
     public function getHeaderText()
     {
         $helper = Mage::helper('oggetto_faq');
-        $model = Mage::registry('current_questions');
+        $model = $this->getCurrentQuestionsModel();
 
         return $helper->__('Edit Question item %s', $this->escapeHtml($model->getId()));
+    }
+
+    /**
+     * Return current questions model from mage registry
+     *
+     * @return Oggetto_Faq_Model_Questions
+     */
+    public function getCurrentQuestionsModel()
+    {
+        return Mage::registry('current_questions');
     }
 
 }
