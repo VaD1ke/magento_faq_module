@@ -92,6 +92,16 @@ class Oggetto_Faq_Block_Adminhtml_Faq_Grid extends Mage_Adminhtml_Block_Widget_G
             'header' => $helper->__('Is answered'),
             'index'  => 'is_answered',
             'type'   => 'boolean',
+            ])
+            ->addColumn('with_feedback', [
+                'header' => $helper->__('With feedback'),
+                'index'  => 'with_feedback',
+                'type'   => 'boolean',
+            ])
+            ->addColumn('was_notified', [
+                'header' => $helper->__('User was notified'),
+                'index'  => 'was_notified',
+                'type'   => 'boolean',
             ]);
 
         return parent::_prepareColumns();

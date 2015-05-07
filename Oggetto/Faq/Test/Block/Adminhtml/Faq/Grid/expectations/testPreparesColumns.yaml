@@ -7,3 +7,5 @@ columns:
   - answer_text
   - created_at
   - is_answered
+  - with_feedback
+  - was_notified
