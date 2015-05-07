@@ -1,0 +1,10 @@
+names:
+  to_name: CustomerName
+  from_name: SupportName
+emails:
+  to_email: CustomerEmail
+  from_email: SupportEmail
+template:
+  name: answer_question_email_template
+subject:
+  name: Admin answered your question
