@@ -84,9 +84,12 @@ class Oggetto_Faq_Adminhtml_QuestionController extends Mage_Adminhtml_Controller
                         $emailTemplate = Mage::getModel('core/email_template')
                             ->loadDefault('answer_question_email_template');
 
+                        $questionUrl = Mage::getUrl('faq/index/view') . '?id=' . $id;
+
                         $emailTemplateVariables = [];
                         $emailTemplateVariables['question'] = $data['question_text'];
                         $emailTemplateVariables['answer'] = $data['answer_text'];
+                        $emailTemplateVariables['questionUrl'] = $questionUrl;
 
 
                         $emailFrom = Mage::helper('oggetto_faq')->getSupportEmail();

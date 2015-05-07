@@ -153,9 +153,23 @@ class Oggetto_Faq_Test_Controller_Adminhtml_Question extends Oggetto_Phpunit_Tes
         $this->getRequest()->setMethod('POST');
         $this->getRequest()->setPost($post);
 
+        $testId  = 777;
+        $testUrl = 'testUrl';
+        $this->getRequest()->setParam('id', $testId);
+
+        $questionUrl = $testUrl . '?id=' . $testId;
+
+        $coreUrlMock = $this->getModelMock('core/url', ['getUrl']);
+
+        $coreUrlMock->expects($this->once())
+            ->method('getUrl')
+            ->with('faq/index/view')
+            ->willReturn($testUrl);
+
         $emailTemplateVariable = [
-            'question' => $post['question_text'],
-            'answer'   => $post['answer_text']
+            'question'    => $post['question_text'],
+            'answer'      => $post['answer_text'],
+            'questionUrl' => $questionUrl
         ];
         $processedTemplateString = 'TestTemplate';
 
@@ -248,6 +262,7 @@ class Oggetto_Faq_Test_Controller_Adminhtml_Question extends Oggetto_Phpunit_Tes
         $this->replaceByMock('model', 'oggetto_faq/questions', $model);
         $this->replaceByMock('model', 'core/email_template', $mailTemplateModelMock);
         $this->replaceByMock('model', 'core/email', $mailModelMock);
+        $this->replaceByMock('model', 'core/url', $coreUrlMock);
 
         $this->dispatch('adminhtml/question/save');
 
