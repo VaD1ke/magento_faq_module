@@ -38,7 +38,13 @@
     <table class="data-table">
         <tr><th>Name</th><td><?php echo $item->getName(); ?></td></tr>
         <tr><th>Email</th><td><?php echo $item->getEmail(); ?></td></tr>
-        <tr><th>Question</th><td><?php echo $item->getQuestionText(); ?></td></tr>
+        <tr><th>Question</th>
+            <td>
+                <a href="<?php echo $this->getQuestionViewUrl(); ?>?id=<?php echo $item->getId(); ?>">
+                    <?php echo $item->getQuestionText(); ?>
+                </a>
+            </td>
+        </tr>
         <tr><th>Answer</th><td><?php echo $item->getAnswerText(); ?></td></tr>
         <tr><th>Date</th><td><?php echo $item->getCreatedAt(); ?></td></tr>
     </table><br>

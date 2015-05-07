@@ -61,6 +61,28 @@ class Oggetto_Faq_IndexController extends Mage_Core_Controller_Front_Action
     }
 
     /**
+     * View question
+     *
+     * @return void
+     */
+    public function viewAction()
+    {
+        $questionId = Mage::app()->getRequest()->getParam('id', 0);
+        $model = Mage::getModel('oggetto_faq/questions');
+        $question = $model->load($questionId);
+
+        if ($question->getId() > 0) {
+            $this->loadLayout();
+            $this->getLayout()->getBlock('view.content')->assign([
+                'questionItem' => $question,
+            ]);
+            $this->renderLayout();
+        } else {
+            $this->_redirect('faq');
+        }
+    }
+
+    /**
      * Add question
      *
      * @return void

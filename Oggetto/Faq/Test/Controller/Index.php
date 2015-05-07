@@ -55,6 +55,57 @@ class Oggetto_Faq_Test_Controller_Index extends EcomDev_PHPUnit_Test_Case_Contro
     }
 
     /**
+     * Tests view action with positive question id
+     *
+     * @return void
+     */
+    public function testViewActionChecksLayoutRenderedWithPositiveQuestionId()
+    {
+        $testId = 777;
+        $this->getRequest()->setParam('id', $testId);
+
+        $model = $this->getModelMock('oggetto_faq/questions', ['getId']);
+
+        $model->expects($this->once())
+            ->method('getId')
+            ->willReturn($testId);
+
+        $this->replaceByMock('model', 'oggetto_faq/questions', $model);
+
+        $this->dispatch('faq/index/view');
+
+
+        $this->_assertRequestsDispatchForwardRouteAndController('view');
+
+        $this->assertLayoutHandleLoaded('oggetto_faq_index_view');
+        $this->assertLayoutRendered();
+
+        $this->assertLayoutBlockCreated('view.content');
+
+        $this->assertLayoutBlockInstanceOf('view.content', 'Oggetto_Faq_Block_View');
+        $this->assertLayoutBlockParentEquals('view.content', 'content');
+        $this->assertLayoutBlockRendered('view.content');
+    }
+
+    /**
+     * Tests view action with negative question id
+     *
+     * @return void
+     */
+    public function testViewActionChecksRequestRedirectedWithNegativeQuestionId()
+    {
+        $testId = 777;
+        $this->getRequest()->setParam('id', $testId);
+
+        $this->dispatch('faq/index/view');
+
+        $this->assertRequestDispatched();
+        $this->assertRedirectTo('faq');
+    }
+
+
+
+    /**
      * Tests adding questions action
      *
      * @param array $post post data

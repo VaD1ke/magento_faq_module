@@ -32,4 +32,9 @@ please refer to http://www.magentocommerce.com for more information.
             <block type="oggetto_faq/ask" name="ask.content" template="faq/ask.phtml"/>
         </reference>
     </oggetto_faq_index_ask>
+    <oggetto_faq_index_view>
+        <reference name="content">
+            <block type="oggetto_faq/view" name="view.content" template="faq/view.phtml"/>
+        </reference>
+    </oggetto_faq_index_view>
 </layout>
