@@ -67,7 +67,13 @@ class Oggetto_Faq_IndexController extends Mage_Core_Controller_Front_Action
      */
     public function addAction()
     {
-        $data = Mage::app()->getRequest()->getPost();
+        $post = Mage::app()->getRequest()->getPost();
+        $data = [
+            'name'          => $post['name'],
+            'email'         => $post['email'],
+            'question_text' => $post['question_text'],
+        ];
+        $data['with_feedback'] = isset($post['with_feedback']) ? (bool) $post['with_feedback'] : false;
 
         try {
 
@@ -78,6 +84,38 @@ class Oggetto_Faq_IndexController extends Mage_Core_Controller_Front_Action
 
             if ($errors === true) {
                 $model->save();
+
+                $emailTemplate = Mage::getModel('core/email_template')->loadDefault('add_question_email_template');
+
+                $emailTemplateVariables = [];
+                $emailTemplateVariables['name'] = $data['name'];
+                $emailTemplateVariables['question'] = $data['question_text'];
+
+
+                $emailTo = Mage::helper('oggetto_faq')->getSupportEmail();
+                $nameTo = Mage::helper('oggetto_faq')->getSupportName();
+
+
+                $emailFrom = $data['email'];
+                $nameFrom = $data['name'];
+
+                $processedTemplate = $emailTemplate->getProcessedTemplate($emailTemplateVariables);
+
+                $mail = Mage::getModel('core/email')
+                    ->setToName($nameTo)
+                    ->setToEmail($emailTo)
+                    ->setBody($processedTemplate)
+                    ->setSubject('Question was added')
+                    ->setFromEmail($emailFrom)
+                    ->setFromName($nameFrom)
+                    ->setType('html');
+
+                try {
+                    $mail->send();
+                } catch(Exception $e) {
+                    Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                }
+
             } else {
                 $errorText = 'Unable to submit your request. ';
 

@@ -68,6 +68,15 @@ class Oggetto_Faq_Test_Controller_Index extends EcomDev_PHPUnit_Test_Case_Contro
         $this->getRequest()->setMethod('POST');
         $this->getRequest()->setPost($post);
 
+        $emailTemplateVariable = [
+            'name'     => $post['name'],
+            'question' => $post['question_text']
+        ];
+        $processedTemplateString = 'TestTemplate';
+
+        $nameTo = 'TestName';
+        $emailTo = 'TestEmail';
+
         $model = $this->getModelMock('oggetto_faq/questions', ['save', 'validate']);
 
         $model->expects($this->once())
@@ -77,7 +86,70 @@ class Oggetto_Faq_Test_Controller_Index extends EcomDev_PHPUnit_Test_Case_Contro
             ->method('validate')
             ->will($this->returnValue(true));
 
+
+        $mailTemplateModelMock = $this->getModelMock('core/email_template', ['loadDefault', 'getProcessedTemplate']);
+
+        $mailTemplateModelMock->expects($this->once())
+            ->method('loadDefault')
+            ->with($this->equalTo('add_question_email_template'))
+            ->willReturnSelf();
+
+        $mailTemplateModelMock->expects($this->once())
+            ->method('getProcessedTemplate')
+            ->with($this->equalTo($emailTemplateVariable))
+            ->willReturn($processedTemplateString);
+
+        $this->_replaceMockForSettingEmailAndNameSupport($nameTo, $emailTo);
+
+        $mailModelMock = $this->getModelMock('core/email', [
+            'setToName',    'setToEmail',
+            'setBody',      'setSubject',
+            'setFromEmail', 'setFromName',
+            'setType',      'send'
+        ]);
+
+        $mailModelMock->expects($this->once())
+            ->method('setToName')
+            ->with($nameTo)
+            ->willReturnSelf();
+
+        $mailModelMock->expects($this->once())
+            ->method('setToEmail')
+            ->with($emailTo)
+            ->willReturnSelf();
+
+        $mailModelMock->expects($this->once())
+            ->method('setBody')
+            ->with($processedTemplateString)
+            ->willReturnSelf();
+
+        $mailModelMock->expects($this->once())
+            ->method('setSubject')
+            ->with('Question was added')
+            ->willReturnSelf();
+
+        $mailModelMock->expects($this->once())
+            ->method('setFromEmail')
+            ->with($post['email'])
+            ->willReturnSelf();
+
+        $mailModelMock->expects($this->once())
+            ->method('setFromName')
+            ->with($post['name'])
+            ->willReturnSelf();
+
+        $mailModelMock->expects($this->once())
+            ->method('setType')
+            ->with('html')
+            ->willReturnSelf();
+
+        $mailModelMock->expects($this->once())
+            ->method('send');
+
+
         $this->replaceByMock('model', 'oggetto_faq/questions', $model);
+        $this->replaceByMock('model', 'core/email_template', $mailTemplateModelMock);
+        $this->replaceByMock('model', 'core/email', $mailModelMock);
 
         $this->dispatch('faq/index/add');
     }
@@ -151,7 +223,30 @@ class Oggetto_Faq_Test_Controller_Index extends EcomDev_PHPUnit_Test_Case_Contro
 
         $helperDataMock->expects($this->once())
             ->method('isDisabledAddingOptionData')
-            ->will($this->returnValue($disabled));
+            ->willReturn($disabled);
+
+        $this->replaceByMock('helper', 'oggetto_faq', $helperDataMock);
+    }
+
+    /**
+     * Replace helper mock and set email and name support
+     *
+     * @param string $name Support Name
+     * @param string $email Support Name
+     *
+     * @return void
+     */
+    private function _replaceMockForSettingEmailAndNameSupport($name, $email)
+    {
+        $helperDataMock = $this->getHelperMock('oggetto_faq/data', ['getSupportName', 'getSupportEmail']);
+
+        $helperDataMock->expects($this->once())
+            ->method('getSupportName')
+            ->willReturn($name);
+
+        $helperDataMock->expects($this->once())
+            ->method('getSupportEmail')
+            ->willReturn($email);
 
         $this->replaceByMock('helper', 'oggetto_faq', $helperDataMock);
     }
