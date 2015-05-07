@@ -68,6 +68,16 @@ class Oggetto_Faq_Block_Questions extends Mage_Core_Block_Template
     }
 
     /**
+     * Get url for ask question page
+     *
+     * @return string
+     */
+    public function getQuestionViewUrl()
+    {
+        return $this->getUrl('faq/index/view');
+    }
+
+    /**
      * Check if disabled option is enabled
      *
      * @return mixed

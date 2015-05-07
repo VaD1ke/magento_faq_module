@@ -23,32 +23,14 @@
  */
 
 /**
- * Block test case for showing page
+ * Block test class for viewing questions
  *
  * @category   Oggetto
  * @package    Oggetto_Faq
- * @subpackage Case
+ * @subpackage Block
  * @author     Vladislav Slesarenko <vslesarenko@oggettoweb.com>
  */
-class Oggetto_Faq_Test_Case_Block_Page extends EcomDev_PHPUnit_Test_Case
+class Oggetto_Faq_Test_Block_View extends EcomDev_PHPUnit_Test_Case
 {
-    /**
-     * Create and replace model mock of core url for getting url
-     *
-     * @param string $action    action name of controler
-     * @param string $testValue value that mock will return
-     *
-     * @return void
-     */
-    protected function _createAndReplaceMockForGettingUrl($action, $testValue)
-    {
-        $coreUrl = $this->getModelMock('core/url', ['getUrl']);
 
-        $coreUrl->expects($this->once())
-            ->method('getUrl')
-            ->with('faq/index/' . $action)
-            ->willReturn($testValue);
-
-        $this->replaceByMock('model', 'core/url', $coreUrl);
-    }
 }

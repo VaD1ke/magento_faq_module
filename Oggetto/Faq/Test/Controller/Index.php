@@ -103,8 +103,6 @@ class Oggetto_Faq_Test_Controller_Index extends EcomDev_PHPUnit_Test_Case_Contro
         $this->assertRedirectTo('faq');
     }
 
-
-
     /**
      * Tests adding questions action
      *

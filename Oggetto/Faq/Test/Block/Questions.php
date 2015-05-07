@@ -117,9 +117,23 @@ class Oggetto_Faq_Test_Block_Questions extends Oggetto_Faq_Test_Case_Block_Page
     {
         $testValue = 'test';
 
-        $this->createAndReplaceMockForGettingUrl('ask', $testValue);
+        $this->_createAndReplaceMockForGettingUrl('ask', $testValue);
 
         $this->assertEquals($testValue, $this->_questionsBlock->getQuestionAskUrl());
+    }
+
+    /**
+     * Get url for viewing question page
+     *
+     * @return void
+     */
+    public function testGetsUrlForViewQuestionPage()
+    {
+        $testValue = 'test';
+
+        $this->_createAndReplaceMockForGettingUrl('view', $testValue);
+
+        $this->assertEquals($testValue, $this->_questionsBlock->getQuestionViewUrl());
     }
 
     /**

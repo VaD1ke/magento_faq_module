@@ -59,7 +59,7 @@ class Oggetto_Faq_Test_Block_Ask extends Oggetto_Faq_Test_Case_Block_Page
     {
         $testValue = 'test';
 
-        $this->createAndReplaceMockForGettingUrl('add', $testValue);
+        $this->_createAndReplaceMockForGettingUrl('add', $testValue);
 
         $this->assertEquals($testValue, $this->_askBlock->getQuestionAddUrl());
     }
