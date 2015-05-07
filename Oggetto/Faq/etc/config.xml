@@ -96,6 +96,21 @@ please refer to http://www.magentocommerce.com for more information.
                 </setup>
             </oggetto_faq_setup>
         </resources>
+
+        <template>
+            <email>
+                <add_question_email_template>
+                    <label>Add question email notification</label>
+                    <file>oggetto_faq_add_question_notification.html</file>
+                    <type>html</type>
+                </add_question_email_template>
+                <answer_question_email_template>
+                    <label>Answer question email notification</label>
+                    <file>oggetto_faq_answer_question_notification.html</file>
+                    <type>html</type>
+                </answer_question_email_template>
+            </email>
+        </template>
     </global>
 
     <default>

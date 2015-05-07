@@ -112,8 +112,8 @@ class Oggetto_Faq_IndexController extends Mage_Core_Controller_Front_Action
 
                 try {
                     $mail->send();
-                } catch(Exception $e) {
-                    Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                } catch (Exception $e) {
+                    Mage::logException($e);
                 }
 
             } else {

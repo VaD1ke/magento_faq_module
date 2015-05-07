@@ -73,7 +73,7 @@ class Oggetto_Faq_Test_Config_Main extends EcomDev_PHPUnit_Test_Case_Config
     public function testChecksModuleCodePoolAndVersion()
     {
         $this->assertModuleCodePool('local', 'oggetto_faq');
-        $this->assertModuleVersion('0.0.1');
+        $this->assertModuleVersion('0.0.3');
     }
 
     /**

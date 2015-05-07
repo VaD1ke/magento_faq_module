@@ -69,21 +69,53 @@ class Oggetto_Faq_Adminhtml_QuestionController extends Mage_Adminhtml_Controller
                 $id = $this->getRequest()->getParam('id');
                 $model = Mage::getModel('oggetto_faq/questions');
 
-                $withFeedback = $model->load($id)->getWithFeedback();
-                $wasNotified = $model->load($id)->getWasNotified();
+                $currentQuestion = $model->load($id);
+                $withFeedback = $currentQuestion->getWithFeedback();
+                $wasNotified = $currentQuestion->getWasNotified();
+                $nameTo = $currentQuestion->getName();
+                $emailTo = $currentQuestion->getEmail();
 
-                //var_dump($wasNotified);
-                //var_dump($withFeedback);die;
                 $model->setData($data)->setId($id);
 
                 if ($data['answer_text']) {
                     if ($withFeedback && !$wasNotified) {
                         $model->setNotified();
+
+                        $emailTemplate = Mage::getModel('core/email_template')
+                            ->loadDefault('answer_question_email_template');
+
+                        $emailTemplateVariables = [];
+                        $emailTemplateVariables['question'] = $data['question_text'];
+                        $emailTemplateVariables['answer'] = $data['answer_text'];
+
+
+                        $emailFrom = Mage::helper('oggetto_faq')->getSupportEmail();
+                        $nameFrom = Mage::helper('oggetto_faq')->getSupportName();
+
+                        $processedTemplate = $emailTemplate->getProcessedTemplate($emailTemplateVariables);
+
+                        $mail = Mage::getModel('core/email')
+                            ->setToName($nameTo)
+                            ->setToEmail($emailTo)
+                            ->setBody($processedTemplate)
+                            ->setSubject('Admin answered your question')
+                            ->setFromEmail($emailFrom)
+                            ->setFromName($nameFrom)
+                            ->setType('html');
+
+                        try {
+                            $mail->send();
+                        } catch (Exception $e) {
+                            Mage::logException($e);
+                            Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                        }
+
                     }
                     $model->setAnswered();
                 } else {
                     $model->setNotAnswered();
                 }
+
                 $model->save();
                 Mage::getSingleton('adminhtml/session')->addSuccess(
                     $this->__('Question was saved successfully')

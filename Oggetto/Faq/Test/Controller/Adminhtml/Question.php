@@ -332,7 +332,7 @@ class Oggetto_Faq_Test_Controller_Adminhtml_Question extends Oggetto_Phpunit_Tes
     /**
      * Replace helper mock and set email and name support
      *
-     * @param string $name Support Name
+     * @param string $name  Support Name
      * @param string $email Support Name
      *
      * @return void
