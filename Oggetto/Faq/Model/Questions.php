@@ -82,7 +82,7 @@ class Oggetto_Faq_Model_Questions extends Mage_Core_Model_Abstract
      */
     public function validate()
     {
-        $errors = array();
+        $errors = [];
         if (!Zend_Validate::is($this->getName(), 'NotEmpty')) {
             $errors[] = Mage::helper('oggetto_faq')->__('Name is required');
         }
