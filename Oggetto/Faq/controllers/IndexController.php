@@ -102,54 +102,28 @@ class Oggetto_Faq_IndexController extends Mage_Core_Controller_Front_Action
             $model = Mage::getModel('oggetto_faq/questions');
             $model->setData($data)->setNotAnswered();
 
-            $errors = $model->validate();
+            $validation = $model->validate();
 
-            if ($errors === true) {
+            if ($validation === true) {
                 $model->save();
 
-                /** @var Mage_Core_Model_Email_Template $emailTemplate */
-                $emailTemplate = Mage::getModel('core/email_template')->loadDefault('add_question_email_template');
+                /** @var Oggetto_Faq_Model_EmailSender $emailSender */
+                $emailSender = Mage::getModel('oggetto_faq/emailSender');
 
-                $emailTemplateVariables = [];
-                $emailTemplateVariables['name'] = $data['name'];
-                $emailTemplateVariables['question'] = $data['question_text'];
+                unset($data['with_feedback']);
 
-
-                $emailTo = Mage::helper('oggetto_faq')->getSupportEmail();
-                $nameTo = Mage::helper('oggetto_faq')->getSupportName();
-
-
-                $emailFrom = $data['email'];
-                $nameFrom = $data['name'];
-
-                $processedTemplate = $emailTemplate->getProcessedTemplate($emailTemplateVariables);
-
-                $mail = Mage::getModel('core/email')
-                    ->setToName($nameTo)
-                    ->setToEmail($emailTo)
-                    ->setBody($processedTemplate)
-                    ->setSubject('Question was added')
-                    ->setFromEmail($emailFrom)
-                    ->setFromName($nameFrom)
-                    ->setType('html');
-
-                try {
-                    $mail->send();
-                } catch (Exception $e) {
-                    Mage::logException($e);
-                }
+                $emailSender->sendNotificationToAdmin($data);
 
             } else {
                 $errorText = 'Unable to submit your request. ';
 
-                for ($i = 0; $i < count($errors); $i++) {
-                    $errorText .= $errors[$i] . '. ';
+                for ($i = 0; $i < count($validation); $i++) {
+                    $errorText .= $validation[$i] . '. ';
                 }
 
 
                 $this->_redirect('faq/index/ask');
-                Mage::getSingleton('core/session')
-                    ->addError(Mage::helper('oggetto_faq')->__($errorText));
+                Mage::getSingleton('core/session')->addError(Mage::helper('oggetto_faq')->__($errorText));
                 return;
             }
 

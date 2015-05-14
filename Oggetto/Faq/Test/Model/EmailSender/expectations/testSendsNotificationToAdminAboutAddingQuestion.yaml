@@ -1,0 +1,6 @@
+name_to: TestName
+email_to: TestEmail
+subject: Question was added
+default_template: add_question_email_template
+processed_template: TestTemplate
+type: html

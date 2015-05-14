@@ -71,9 +71,11 @@ class Oggetto_Faq_Adminhtml_QuestionController extends Mage_Adminhtml_Controller
 
                 $currentQuestion = $model->load($id);
                 $withFeedback = $currentQuestion->getWithFeedback();
-                $wasNotified = $currentQuestion->getWasNotified();
-                $nameTo = $currentQuestion->getName();
+                $wasNotified  = $currentQuestion->getWasNotified();
+                $nameTo  = $currentQuestion->getName();
                 $emailTo = $currentQuestion->getEmail();
+
+                unset($data['form_key']);
 
                 $model->setData($data)->setId($id);
 
@@ -81,44 +83,18 @@ class Oggetto_Faq_Adminhtml_QuestionController extends Mage_Adminhtml_Controller
                     if ($withFeedback && !$wasNotified) {
                         $model->setNotified();
 
-                        $emailTemplate = Mage::getModel('core/email_template')
-                            ->loadDefault('answer_question_email_template');
+                        $data['name_to']  = $nameTo;
+                        $data['email_to'] = $emailTo;
+                        $data['id']       = $id;
 
-                        $questionUrl = Mage::getUrl('faq/index/view') . '?id=' . $id;
-
-                        $emailTemplateVariables = [];
-                        $emailTemplateVariables['question'] = $data['question_text'];
-                        $emailTemplateVariables['answer'] = $data['answer_text'];
-                        $emailTemplateVariables['questionUrl'] = $questionUrl;
-
-
-                        $emailFrom = Mage::helper('oggetto_faq')->getSupportEmail();
-                        $nameFrom = Mage::helper('oggetto_faq')->getSupportName();
-
-                        $processedTemplate = $emailTemplate->getProcessedTemplate($emailTemplateVariables);
-
-                        $mail = Mage::getModel('core/email')
-                            ->setToName($nameTo)
-                            ->setToEmail($emailTo)
-                            ->setBody($processedTemplate)
-                            ->setSubject('Admin answered your question')
-                            ->setFromEmail($emailFrom)
-                            ->setFromName($nameFrom)
-                            ->setType('html');
-
-                        try {
-                            $mail->send();
-                        } catch (Exception $e) {
-                            Mage::logException($e);
-                            Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-                        }
-
+                        /** @var Oggetto_Faq_Model_EmailSender $emailSender */
+                        $emailSender = Mage::getModel('oggetto_faq/emailSender');
+                        $emailSender->sendNotificationToCustomer($data);
                     }
                     $model->setAnswered();
                 } else {
                     $model->setNotAnswered();
                 }
-
                 $model->save();
                 Mage::getSingleton('adminhtml/session')->addSuccess(
                     $this->__('Question was saved successfully')

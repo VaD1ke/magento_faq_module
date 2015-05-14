@@ -1,0 +1,7 @@
+name_from: testNameFrom
+email_from: testEmailFrom
+subject: Admin answered your question
+default_template: answer_question_email_template
+processed_template: TestTemplate
+url: testUrl
+type: html

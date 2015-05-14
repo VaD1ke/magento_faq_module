@@ -89,7 +89,7 @@ class Oggetto_Faq_Test_Controller_Adminhtml_Question extends Oggetto_Phpunit_Tes
         $this->getRequest()->setMethod('POST');
         $this->getRequest()->setPost($post);
 
-        $model = $this->getModelMock('oggetto_faq/questions', array('save', 'setAnswered', 'setNotAnswered'));
+        $model = $this->getModelMock('oggetto_faq/questions', ['save', 'setAnswered', 'setNotAnswered']);
 
         $model->expects($this->once())
             ->method('save');
@@ -153,38 +153,38 @@ class Oggetto_Faq_Test_Controller_Adminhtml_Question extends Oggetto_Phpunit_Tes
         $this->getRequest()->setMethod('POST');
         $this->getRequest()->setPost($post);
 
-        $testId  = 777;
-        $testUrl = 'testUrl';
+        $testId = 777;
         $this->getRequest()->setParam('id', $testId);
 
-        $questionUrl = $testUrl . '?id=' . $testId;
+        $toName  = $this->expected()->getToName();
+        $toEmail = $this->expected()->getToEmail();
 
-        $coreUrlMock = $this->getModelMock('core/url', ['getUrl']);
+        $post['name_to']  = $toName;
+        $post['email_to'] = $toEmail;
+        $post['id']       = $testId;
 
-        $coreUrlMock->expects($this->once())
-            ->method('getUrl')
-            ->with('faq/index/view')
-            ->willReturn($testUrl);
+        $model = $this->getModelMock('oggetto_faq/questions', [
+            'save', 'setAnswered',
+            'setNotAnswered', 'setNotified',
+            'getWithFeedback', 'getWasNotified',
+            'getName', 'getEmail'
+        ]);
 
-        $emailTemplateVariable = [
-            'question'    => $post['question_text'],
-            'answer'      => $post['answer_text'],
-            'questionUrl' => $questionUrl
-        ];
-        $processedTemplateString = 'TestTemplate';
+        $model->expects($this->once())
+            ->method('getWithFeedback')
+            ->willReturn(1);
 
-        $toName    = $this->expected('names')->getToName();
-        $toEmail   = $this->expected('names')->getToEmail();
-        $fromName  = $this->expected('names')->getFromName();
-        $fromEmail = $this->expected('names')->getFromEmail();
+        $model->expects($this->once())
+            ->method('getWasNotified')
+            ->willReturn(0);
 
+        $model->expects($this->once())
+            ->method('getName')
+            ->willReturn($toName);
 
-        $model = $this->getModelMock('oggetto_faq/questions', ['save', 'setAnswered', 'setNotAnswered', 'setNotified']);
-
-        $model->setWithFeedback(1);
-        $model->setWasNotified(0);
-        $model->setName($toName);
-        $model->setEmail($toEmail);
+        $model->expects($this->once())
+            ->method('getEmail')
+            ->willReturn($toEmail);
 
         $model->expects($this->once())
             ->method('save');
@@ -199,70 +199,17 @@ class Oggetto_Faq_Test_Controller_Adminhtml_Question extends Oggetto_Phpunit_Tes
             ->method('setNotAnswered');
 
 
-        $mailTemplateModelMock = $this->getModelMock('core/email_template', ['loadDefault', 'getProcessedTemplate']);
-
-        $mailTemplateModelMock->expects($this->once())
-            ->method('loadDefault')
-            ->with($this->expected('template')->getName())
-            ->willReturnSelf();
-
-        $mailTemplateModelMock->expects($this->once())
-            ->method('getProcessedTemplate')
-            ->with($this->equalTo($emailTemplateVariable))
-            ->willReturn($processedTemplateString);
-
-        $this->_replaceMockForSettingEmailAndNameSupport($fromName, $fromEmail);
-
-        $mailModelMock = $this->getModelMock('core/email', [
-            'setToName',    'setToEmail',
-            'setBody',      'setSubject',
-            'setFromEmail', 'setFromName',
-            'setType',      'send'
-        ]);
-
-        $mailModelMock->expects($this->once())
-            ->method('setToName')
-            ->with($toName)
-            ->willReturnSelf();
-
-        $mailModelMock->expects($this->once())
-            ->method('setToEmail')
-            ->with($toEmail)
-            ->willReturnSelf();
-
-        $mailModelMock->expects($this->once())
-            ->method('setBody')
-            ->with($processedTemplateString)
-            ->willReturnSelf();
-
-        $mailModelMock->expects($this->once())
-            ->method('setSubject')
-            ->with($this->expected('subject')->getName())
-            ->willReturnSelf();
-
-        $mailModelMock->expects($this->once())
-            ->method('setFromEmail')
-            ->with($fromEmail)
-            ->willReturnSelf();
-
-        $mailModelMock->expects($this->once())
-            ->method('setFromName')
-            ->with($fromName)
-            ->willReturnSelf();
-
-        $mailModelMock->expects($this->once())
-            ->method('setType')
-            ->with('html')
-            ->willReturnSelf();
-
-        $mailModelMock->expects($this->once())
-            ->method('send');
-
-
         $this->replaceByMock('model', 'oggetto_faq/questions', $model);
-        $this->replaceByMock('model', 'core/email_template', $mailTemplateModelMock);
-        $this->replaceByMock('model', 'core/email', $mailModelMock);
-        $this->replaceByMock('model', 'core/url', $coreUrlMock);
+
+
+        $emailSenderMock = $this->getModelMock('oggetto_faq/emailSender', ['sendNotificationToCustomer']);
+
+        $emailSenderMock->expects($this->once())
+            ->method('sendNotificationToCustomer')
+            ->with($post);
+
+        $this->replaceByMock('model', 'oggetto_faq/emailSender', $emailSenderMock);
+
 
         $this->dispatch('adminhtml/question/save');
 
@@ -342,28 +289,5 @@ class Oggetto_Faq_Test_Controller_Adminhtml_Question extends Oggetto_Phpunit_Tes
         $this->assertRequestRouteName('adminhtml');
         $this->assertRequestControllerName('question');
         $this->assertRequestActionName($actionName);
-    }
-
-    /**
-     * Replace helper mock and set email and name support
-     *
-     * @param string $name  Support Name
-     * @param string $email Support Name
-     *
-     * @return void
-     */
-    private function _replaceMockForSettingEmailAndNameSupport($name, $email)
-    {
-        $helperDataMock = $this->getHelperMock('oggetto_faq/data', ['getSupportName', 'getSupportEmail']);
-
-        $helperDataMock->expects($this->once())
-            ->method('getSupportName')
-            ->willReturn($name);
-
-        $helperDataMock->expects($this->once())
-            ->method('getSupportEmail')
-            ->willReturn($email);
-
-        $this->replaceByMock('helper', 'oggetto_faq', $helperDataMock);
     }
 }
