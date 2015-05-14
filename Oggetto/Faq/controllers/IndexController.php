@@ -72,6 +72,10 @@ class Oggetto_Faq_IndexController extends Mage_Core_Controller_Front_Action
         $question = $model->load($questionId);
 
         if ($question->getId() > 0 && $question->getIsAnswered()) {
+            foreach ($question->getData() as $index => $fields) {
+                $question[$index] = htmlentities($fields);
+            }
+
             $this->loadLayout();
             $this->getLayout()->getBlock('view.content')->assign([
                 'questionItem' => $question,
