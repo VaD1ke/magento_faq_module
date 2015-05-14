@@ -71,7 +71,7 @@ class Oggetto_Faq_IndexController extends Mage_Core_Controller_Front_Action
         $model = Mage::getModel('oggetto_faq/questions');
         $question = $model->load($questionId);
 
-        if ($question->getId() > 0) {
+        if ($question->getId() > 0 && $question->getIsAnswered()) {
             $this->loadLayout();
             $this->getLayout()->getBlock('view.content')->assign([
                 'questionItem' => $question,
@@ -98,7 +98,7 @@ class Oggetto_Faq_IndexController extends Mage_Core_Controller_Front_Action
         $data['with_feedback'] = isset($post['with_feedback']) ? (bool) $post['with_feedback'] : false;
 
         try {
-
+            /** @var Oggetto_Faq_Model_Questions $model */
             $model = Mage::getModel('oggetto_faq/questions');
             $model->setData($data)->setNotAnswered();
 
@@ -107,6 +107,7 @@ class Oggetto_Faq_IndexController extends Mage_Core_Controller_Front_Action
             if ($errors === true) {
                 $model->save();
 
+                /** @var Mage_Core_Model_Email_Template $emailTemplate */
                 $emailTemplate = Mage::getModel('core/email_template')->loadDefault('add_question_email_template');
 
                 $emailTemplateVariables = [];
