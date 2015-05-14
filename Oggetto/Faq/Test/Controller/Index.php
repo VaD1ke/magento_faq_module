@@ -64,11 +64,15 @@ class Oggetto_Faq_Test_Controller_Index extends EcomDev_PHPUnit_Test_Case_Contro
         $testId = 777;
         $this->getRequest()->setParam('id', $testId);
 
-        $model = $this->getModelMock('oggetto_faq/questions', ['getId']);
+        $model = $this->getModelMock('oggetto_faq/questions', ['getId', 'getIsAnswered']);
 
         $model->expects($this->once())
             ->method('getId')
             ->willReturn($testId);
+
+        $model->expects($this->once())
+            ->method('getIsAnswered')
+            ->willReturn(1);
 
         $this->replaceByMock('model', 'oggetto_faq/questions', $model);
 
@@ -140,12 +144,12 @@ class Oggetto_Faq_Test_Controller_Index extends EcomDev_PHPUnit_Test_Case_Contro
 
         $mailTemplateModelMock->expects($this->once())
             ->method('loadDefault')
-            ->with($this->equalTo('add_question_email_template'))
+            ->with('add_question_email_template')
             ->willReturnSelf();
 
         $mailTemplateModelMock->expects($this->once())
             ->method('getProcessedTemplate')
-            ->with($this->equalTo($emailTemplateVariable))
+            ->with($emailTemplateVariable)
             ->willReturn($processedTemplateString);
 
         $this->_replaceMockForSettingEmailAndNameSupport($nameTo, $emailTo);
