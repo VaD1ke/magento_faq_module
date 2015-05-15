@@ -24,6 +24,7 @@
 ?>
 <h2>Ask a question</h2>
 <form method="POST" action="<?php echo $this->getQuestionAddUrl(); ?>" accept-charset="UTF-8" id="askForm">
+    <?php echo $this->getBlockHtml('formkey') ?>
     <input name="name" type="text" placeholder="your name" class="required-entry validate-data"><br>
     <input name="email" type="text" placeholder="your email" class="required-entry validate-email"><br>
     <textarea name="question_text" placeholder="your question" style="resize:none" class="required-entry"></textarea><br>

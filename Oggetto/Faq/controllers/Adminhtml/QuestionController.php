@@ -64,6 +64,9 @@ class Oggetto_Faq_Adminhtml_QuestionController extends Mage_Adminhtml_Controller
      */
     public function saveAction()
     {
+        if (!$this->_validateFormKey()) {
+            $this->_redirect('*/*/');
+        }
         if ($data = $this->getRequest()->getPost()) {
             try {
                 $id = $this->getRequest()->getParam('id');
@@ -157,5 +160,22 @@ class Oggetto_Faq_Adminhtml_QuestionController extends Mage_Adminhtml_Controller
             $this->_getSession()->addError($this->__('Please select questions'));
         }
         $this->_redirect('*/*/');
+    }
+
+    /**
+     * Validate form key to prevent csrf attack
+     *
+     * @return bool
+     */
+    protected function _validateFormKey()
+    {
+        /** @var Mage_Core_Model_Session $coreSession */
+        $coreSession = Mage::getSingleton('core/session');
+
+        if (!($formKey = $this->getRequest()->getParam('form_key'))
+            || $formKey != $coreSession->getFormKey()) {
+            return false;
+        }
+        return true;
     }
 }

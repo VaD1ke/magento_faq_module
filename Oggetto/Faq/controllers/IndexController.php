@@ -93,7 +93,12 @@ class Oggetto_Faq_IndexController extends Mage_Core_Controller_Front_Action
      */
     public function addAction()
     {
+        if (!$this->_validateFormKey()) {
+            $this->_redirect('*/*/');
+        }
+
         $post = Mage::app()->getRequest()->getPost();
+
         $data = [
             'name'          => $post['name'],
             'email'         => $post['email'],
@@ -146,4 +151,20 @@ class Oggetto_Faq_IndexController extends Mage_Core_Controller_Front_Action
         $this->_redirect('faq');
     }
 
+    /**
+     * Validate form key to prevent csrf attack
+     *
+     * @return bool
+     */
+    protected function _validateFormKey()
+    {
+        /** @var Mage_Core_Model_Session $coreSession */
+        $coreSession = Mage::getSingleton('core/session');
+
+        if (!($formKey = $this->getRequest()->getParam('form_key'))
+            || $formKey != $coreSession->getFormKey()) {
+            return false;
+        }
+        return true;
+    }
 }
