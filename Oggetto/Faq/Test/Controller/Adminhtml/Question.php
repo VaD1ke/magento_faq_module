@@ -217,6 +217,55 @@ class Oggetto_Faq_Test_Controller_Adminhtml_Question extends Oggetto_Phpunit_Tes
     }
 
     /**
+     * Tests save question action with not valid form key
+     *
+     * @param array $post post data
+     * @return void
+     *
+     * @dataProvider dataProvider
+     */
+    public function testSaveActionRedirectsWithNotValidFormKey($post)
+    {
+        $this->getRequest()->setMethod('POST');
+        $this->getRequest()->setPost($post);
+
+        $coreSessionMock = $this->getModelMock('core/session', ['getFormKey']);
+
+        foreach ($this->expected('form_keys')->getData() as $index => $formKey) {
+            $coreSessionMock->expects($this->at($index))
+                ->method('getFormKey')
+                ->willReturn($formKey);
+        }
+
+        $this->replaceByMock('model', 'core/session', $coreSessionMock);
+
+        $model = $this->getModelMock('oggetto_faq/questions', [
+            'save', 'load'
+        ]);
+
+        $model->expects($this->never())
+            ->method('load');
+
+        $model->expects($this->never())
+            ->method('save');
+
+        $this->replaceByMock('model', 'oggetto_faq/questions', $model);
+
+
+        $emailSenderMock = $this->getModelMock('oggetto_faq/emailSender', ['sendNotificationToCustomer']);
+
+        $emailSenderMock->expects($this->never())
+            ->method('sendNotificationToCustomer');
+
+        $this->replaceByMock('model', 'oggetto_faq/emailSender', $emailSenderMock);
+
+
+        $this->dispatch('adminhtml/question/save');
+
+        $this->_assertRequestsDispatchForwardAndController('save');
+    }
+
+    /**
      * Tests delete question action
      *
      * @return void

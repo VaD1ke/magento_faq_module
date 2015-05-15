@@ -147,6 +147,59 @@ class Oggetto_Faq_Test_Controller_Index extends EcomDev_PHPUnit_Test_Case_Contro
 
 
         $this->dispatch('faq/index/add');
+
+        $this->assertRedirectTo('*/');
+    }
+
+    /**
+     * Tests adding questions action requests with not valid form key
+     *
+     * @param array $post post data
+     * @return void
+     *
+     * @dataProvider dataProvider
+     */
+    public function testAddActionRedirectsWithNotValidFormKey($post)
+    {
+        $this->getRequest()->setMethod('POST');
+        $this->getRequest()->setPost($post);
+
+        $coreSessionMock = $this->getModelMock('core/session', ['getFormKey']);
+
+        foreach ($this->expected('form_keys')->getData() as $index => $formKey) {
+            $coreSessionMock->expects($this->at($index))
+                ->method('getFormKey')
+                ->willReturn($formKey);
+        }
+
+        $this->replaceByMock('model', 'core/session', $coreSessionMock);
+
+
+        $model = $this->getModelMock('oggetto_faq/questions', ['save', 'validate', 'setNotAnswered']);
+
+        $model->expects($this->never())
+            ->method('setNotAnswered');
+
+        $model->expects($this->never())
+            ->method('save');
+
+        $model->expects($this->never())
+            ->method('validate');
+
+        $this->replaceByMock('model', 'oggetto_faq/questions', $model);
+
+
+        $emailSenderMock = $this->getModelMock('oggetto_faq/emailSender', ['sendNotificationToAdmin']);
+
+        $emailSenderMock->expects($this->never())
+            ->method('sendNotificationToAdmin');
+
+        $this->replaceByMock('model', 'oggetto_faq/emailSender', $emailSenderMock);
+
+
+        $this->dispatch('faq/index/add');
+
+        $this->assertRedirectTo('*/*/');
     }
 
     /**
