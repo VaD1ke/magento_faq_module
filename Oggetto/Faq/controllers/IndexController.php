@@ -89,12 +89,12 @@ class Oggetto_Faq_IndexController extends Mage_Core_Controller_Front_Action
     /**
      * Add question
      *
-     * @return void
+     * @return Mage_Core_Controller_Varien_Action
      */
     public function addAction()
     {
         if (!$this->_validateFormKey()) {
-            $this->_redirect('*/*/');
+            return $this->_redirect('*/*/');
         }
 
         $post = Mage::app()->getRequest()->getPost();
@@ -130,10 +130,9 @@ class Oggetto_Faq_IndexController extends Mage_Core_Controller_Front_Action
                     $errorText .= $validation[$i] . '. ';
                 }
 
-
-                $this->_redirect('faq/index/ask');
                 Mage::getSingleton('core/session')->addError(Mage::helper('oggetto_faq')->__($errorText));
-                return;
+                return $this->_redirect('faq/index/ask');
+
             }
 
             Mage::getSingleton('adminhtml/session')->addSuccess(
@@ -148,7 +147,7 @@ class Oggetto_Faq_IndexController extends Mage_Core_Controller_Front_Action
 
         }
 
-        $this->_redirect('faq');
+        return $this->_redirect('faq');
     }
 
     /**
@@ -165,6 +164,7 @@ class Oggetto_Faq_IndexController extends Mage_Core_Controller_Front_Action
             || $formKey != $coreSession->getFormKey()) {
             return false;
         }
+
         return true;
     }
 }

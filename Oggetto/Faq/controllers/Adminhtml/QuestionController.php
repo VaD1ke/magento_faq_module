@@ -60,12 +60,12 @@ class Oggetto_Faq_Adminhtml_QuestionController extends Mage_Adminhtml_Controller
     /**
      * Save changes in question
      *
-     * @return void
+     * @return Mage_Core_Controller_Varien_Action
      */
     public function saveAction()
     {
         if (!$this->_validateFormKey()) {
-            $this->_redirect('*/*/');
+            return $this->_redirect('*/*/');
         }
         if ($data = $this->getRequest()->getPost()) {
             try {
@@ -110,13 +110,12 @@ class Oggetto_Faq_Adminhtml_QuestionController extends Mage_Adminhtml_Controller
                     'id' => $this->getRequest()->getParam('id')
                 ));
             }
-            $this->_redirect('*/*/');
-            return;
+            return $this->_redirect('*/*/');
         }
         Mage::getSingleton('adminhtml/session')->addError(
             $this->__('Unable to find item to save')
         );
-        $this->_redirect('*/*/');
+        return $this->_redirect('*/*/');
     }
 
     /**
