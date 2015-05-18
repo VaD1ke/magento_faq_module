@@ -98,8 +98,47 @@ class Oggetto_Faq_Test_Controller_Index extends EcomDev_PHPUnit_Test_Case_Contro
      */
     public function testViewActionChecksRequestRedirectedWithNegativeQuestionId()
     {
+        $testId = -1;
+        $this->getRequest()->setParam('id', $testId);
+
+        $modelQuestionsMock = $this->getModelMock('oggetto_faq/questions', ['getId', 'getIsAnswered']);
+
+        $modelQuestionsMock->expects($this->once())
+            ->method('getId')
+            ->willReturn($testId);
+
+        $modelQuestionsMock->expects($this->never())
+            ->method('getIsAnswered');
+
+        $this->replaceByMock('model', 'oggetto_faq/questions', $modelQuestionsMock);
+
+        $this->dispatch('faq/index/view');
+
+        $this->assertRequestDispatched();
+        $this->assertRedirectTo('faq');
+    }
+
+    /**
+     * Tests view action check request redirected with not answered question
+     *
+     * @return void
+     */
+    public function testViewActionChecksRequestRedirectedWithNotAnsweredQuestion()
+    {
         $testId = 777;
         $this->getRequest()->setParam('id', $testId);
+
+        $modelQuestionsMock = $this->getModelMock('oggetto_faq/questions', ['getId', 'getIsAnswered']);
+
+        $modelQuestionsMock->expects($this->once())
+            ->method('getId')
+            ->willReturn($testId);
+
+        $modelQuestionsMock->expects($this->once())
+            ->method('getIsAnswered')
+            ->willReturn(false);
+
+        $this->replaceByMock('model', 'oggetto_faq/questions', $modelQuestionsMock);
 
         $this->dispatch('faq/index/view');
 
@@ -256,7 +295,6 @@ class Oggetto_Faq_Test_Controller_Index extends EcomDev_PHPUnit_Test_Case_Contro
         $this->assertRequestControllerName('index');
         $this->assertRequestActionName($actionName);
     }
-
 
     /**
      * Replace helper mock and set adding option data
