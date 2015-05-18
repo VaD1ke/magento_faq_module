@@ -26,9 +26,9 @@
     <h1>Question</h1>
 </div>
 
-<p><b>Name:</b></p><?php echo $questionItem->getName(); ?>
-<p><b>Email:</b></p><?php echo $questionItem->getEmail(); ?>
-<p><b>Question:</b></p><?php echo $questionItem->getQuestionText(); ?>
-<p><b>Answer:</b></p><?php echo $questionItem->getAnswerText(); ?>
-<p><b>Date:</b></p><?php echo $questionItem->getCreatedAt(); ?>
+<p><b>Name:</b></p><?php echo $this->escapeHtml($questionItem->getName()); ?>
+<p><b>Email:</b></p><?php echo $this->escapeHtml($questionItem->getEmail()); ?>
+<p><b>Question:</b></p><?php echo $this->escapeHtml($questionItem->getQuestionText()); ?>
+<p><b>Answer:</b></p><?php echo $this->escapeHtml($questionItem->getAnswerText()); ?>
+<p><b>Date:</b></p><?php echo $this->escapeHtml($questionItem->getCreatedAt()); ?>
 

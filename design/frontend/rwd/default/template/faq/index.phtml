@@ -36,17 +36,17 @@
 
 <?php foreach ($this->getCollection() as $item): ?>
     <table class="data-table">
-        <tr><th>Name</th><td><?php echo htmlentities($item->getName()); ?></td></tr>
-        <tr><th>Email</th><td><?php echo htmlentities($item->getEmail()); ?></td></tr>
+        <tr><th>Name</th><td><?php echo $this->escapeHtml($item->getName()); ?></td></tr>
+        <tr><th>Email</th><td><?php echo $this->escapeHtml($item->getEmail()); ?></td></tr>
         <tr><th>Question</th>
             <td>
-                <a href="<?php echo htmlentities($this->getQuestionViewUrl()); ?>?id=<?php echo $item->getId(); ?>">
-                    <?php echo htmlentities($item->getQuestionText()); ?>
+                <a href="<?php echo $this->getQuestionViewUrl(); ?>?id=<?php echo $item->getId(); ?>">
+                    <?php echo $this->escapeHtml($item->getQuestionText()); ?>
                 </a>
             </td>
         </tr>
-        <tr><th>Answer</th><td><?php echo htmlentities($item->getAnswerText()); ?></td></tr>
-        <tr><th>Date</th><td><?php echo htmlentities($item->getCreatedAt()); ?></td></tr>
+        <tr><th>Answer</th><td><?php echo $this->escapeHtml($item->getAnswerText()); ?></td></tr>
+        <tr><th>Date</th><td><?php echo $this->escapeHtml($item->getCreatedAt()); ?></td></tr>
     </table><br>
 <?php endforeach; ?>
 
