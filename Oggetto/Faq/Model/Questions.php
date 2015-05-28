@@ -101,48 +101,4 @@ class Oggetto_Faq_Model_Questions extends Mage_Core_Model_Abstract
 
         return true;
     }
-
-
-
-    /**
-     * Send email
-     *
-     * @param array $data data to send
-     *
-     * @return void
-     */
-    public function send($data)
-    {
-        /** @var Mage_Core_Model_Email_Template $emailTemplate */
-        $emailTemplate = Mage::getModel('core/email_template')->loadDefault('add_question_email_template');
-
-        $emailTemplateVariables = [];
-        $emailTemplateVariables['name'] = $data['name'];
-        $emailTemplateVariables['question'] = $data['question_text'];
-
-
-        $emailTo = Mage::helper('oggetto_faq')->getSupportEmail();
-        $nameTo = Mage::helper('oggetto_faq')->getSupportName();
-
-
-        $emailFrom = $data['email'];
-        $nameFrom = $data['name'];
-
-        $processedTemplate = $emailTemplate->getProcessedTemplate($emailTemplateVariables);
-
-        $mail = Mage::getModel('core/email')
-            ->setToName($nameTo)
-            ->setToEmail($emailTo)
-            ->setBody($processedTemplate)
-            ->setSubject('Question was added')
-            ->setFromEmail($emailFrom)
-            ->setFromName($nameFrom)
-            ->setType('html');
-
-        try {
-            $mail->send();
-        } catch (Exception $e) {
-            Mage::logException($e);
-        }
-    }
 }
